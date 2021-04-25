@@ -41,6 +41,10 @@ export default {
 		login() {
 			const username = this.username
 			const password = this.password
+			axios.post('http://127.0.0.1:8000/auth/login/', {
+				username: username,
+				password: password,
+			})
 		},
 	},
 }
