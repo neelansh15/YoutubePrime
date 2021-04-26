@@ -5,7 +5,7 @@
         <div class="d-flex align-center">
           <v-icon large> mdi-youtube </v-icon>
           <h2 class="ml-2 hidden-sm-and-down">
-            Youtube <span class="font-weight-light">Prime</span>
+            YouTube <span class="font-weight-light">Prime</span>
           </h2>
         </div>
       </router-link>
