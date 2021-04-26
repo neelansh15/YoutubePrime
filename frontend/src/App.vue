@@ -10,10 +10,14 @@
         </div>
       </router-link>
       <v-spacer></v-spacer>
+      <v-btn to="/dashboard" text>Dashboard</v-btn>
+      <v-btn to="/account" text>Account</v-btn>
     </v-app-bar>
 
     <v-main>
-      <router-view />
+      <v-fade-transition>
+        <router-view />
+      </v-fade-transition>
     </v-main>
   </v-app>
 </template>

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from '../views/Dashboard.vue'
 import Home from '../views/Home.vue'
+import Play from '../views/Play.vue'
+import PlayOwner from '../views/PlayOwner.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +17,18 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard
+  },
+  {
+    path: '/play',
+    name: 'Play',
+    component: PlayOwner,
+    children: [
+      {
+        path: '/play/:id',
+        name: 'Play',
+        component: Play
+      }
+    ]
   },
   {
     path: '/account',
