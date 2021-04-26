@@ -1,12 +1,12 @@
 <template>
-  <v-app>
+  <v-app dark>
     <v-app-bar
       app
-      color="primary"
+      color="deep-purple darken-3"
       dark
     >
       <div class="d-flex align-center">
-        <v-img
+        <!-- <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
@@ -22,35 +22,30 @@
           min-width="100"
           src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
           width="100"
-        />
+        /> -->
+          <v-icon large>
+            mdi-youtube
+          </v-icon>
+          <h2 class="ml-2 hidden-sm-and-down">Youtube <span class="font-weight-light">Prime</span></h2>
       </div>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+     
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
   },
 
   data: () => ({
