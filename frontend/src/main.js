@@ -1,18 +1,12 @@
-import { createApp } from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
-
-import PrimeVue from 'primevue/config'
-import Button from 'primevue/button'
-
 import router from './router'
+import store from './store'
 
-const app = createApp(App)
+Vue.config.productionTip = false
 
-app.use(router)
-
-app.use(PrimeVue)
-
-app.component('Button', Button)
-
-
-app.mount('#app')
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')
