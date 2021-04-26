@@ -4,6 +4,10 @@
 		<v-btn>
 			<router-link to="/login"> Login </router-link>
 		</v-btn>
+
+		<div>
+			<Button label="Hey there!"></Button>
+		</div>
 	</div>
 </template>
 
@@ -11,7 +15,7 @@
 import banner from '../components/banner.vue'
 export default {
 	components: {
-		banner,
+		banner
 	},
 }
 </script>

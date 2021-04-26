@@ -342,6 +342,16 @@ postcss@^8.1.10, postcss@^8.2.1:
     nanoid "^3.1.22"
     source-map "^0.6.1"
 
+primeicons@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-4.1.0.tgz#19eaef8ef5594b0006358ae64e738d03e167c9bb"
+  integrity sha512-uEv2pSPk1zQCfaB2VgnUfnUxxlGryYi+5rbdxmZBBt5v9S/pscIQYS5YDLxsQZ7D9jn5c76+Tx5wX/2J1nK6sA==
+
+primevue@3.3.5:
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/primevue/-/primevue-3.3.5.tgz#3bf9e4e90632604acc7568848af2b1386938128e"
+  integrity sha512-RWR3vYfy64gLvm3DdhFsevI/TPEU6vCvBui19N3//VN3xyYusQe5ikSE7uJaXD4DMfwMkx50MpL1oXXiIE6+Zg==
+
 resolve@^1.19.0:
   version "1.20.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.20.0.tgz#629a013fb3f70755d6f0b7935cc1c2c5378b1975"
