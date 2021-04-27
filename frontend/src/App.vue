@@ -1,21 +1,35 @@
 <template>
-	<router-view />
+  <v-app dark>
+    <v-app-bar app color="deep-purple darken-3" dark>
+      <router-link style="text-decoration: none; color: inherit" to="/">
+        <div class="d-flex align-center">
+          <v-icon large> mdi-youtube </v-icon>
+          <h2 class="ml-2 hidden-sm-and-down">
+            YouTube <span class="font-weight-light">Prime</span>
+          </h2>
+        </div>
+      </router-link>
+      <v-spacer></v-spacer>
+      <v-btn to="/dashboard" text>Dashboard</v-btn>
+      <v-btn to="/account" text>Account</v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <v-fade-transition>
+        <router-view />
+      </v-fade-transition>
+    </v-main>
+  </v-app>
 </template>
 
-<script setup>
-// import HelloWorld from './components/HelloWorld.vue'
+<script>
+export default {
+  name: "App",
 
-// This starter template is using Vue 3 experimental <script setup> SFCs
-// Check out https://github.com/vuejs/rfcs/blob/script-setup-2/active-rfcs/0000-script-setup.md
+  components: {},
+
+  data: () => ({
+    //
+  }),
+};
 </script>
-
-<style>
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-} */
-</style>
