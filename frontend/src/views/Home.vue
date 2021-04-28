@@ -7,10 +7,10 @@
           <span class="ml-1">YouTube <span class="font-weight-light">Prime</span></span>
         </v-card>
         <div class="mt-3">
-          <h3 class="text-h1">
+          <h3 class="text-h2 text-md-h1">
             The next generation of subscription based video sharing
           </h3>
-          <v-btn class="mt-3" color="deep-purple darken-2" width="200" to="/dashboard" large>Enter</v-btn>
+          <v-btn class="mt-5" color="deep-purple darken-2" width="200" to="/dashboard" large>Enter</v-btn>
         </div>
       </v-col>
     </v-row>
