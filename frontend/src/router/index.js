@@ -7,6 +7,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import PlayOwner from '../views/PlayOwner.vue'
 import Video from '../views/Video.vue'
+import Upload from '../views/Upload.vue'
 
 Vue.use(VueRouter)
 
@@ -42,6 +43,11 @@ const routes = [
 		path: '/register',
 		name: 'Register',
 		component: Register,
+	},
+	{
+		path: '/upload',
+		name: 'Upload',
+		component: Upload,
 	},
 	{
 		path: '/account',
