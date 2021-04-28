@@ -1,5 +1,9 @@
 <template>
-	<h1>Register</h1>
+	<v-card>
+		<v-form>
+			<v-text-field placeholder="Username"></v-text-field>
+		</v-form>
+	</v-card>
 </template>
 
 <script>
