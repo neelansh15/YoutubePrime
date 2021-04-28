@@ -6,6 +6,7 @@ import Play from '../views/Play.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import PlayOwner from '../views/PlayOwner.vue'
+import Video from '../views/Video.vue'
 
 Vue.use(VueRouter)
 
@@ -50,6 +51,12 @@ const routes = [
 		// which is lazy-loaded when the route is visited.
 		component: () =>
 			import(/* webpackChunkName: "about" */ '../views/Account.vue'),
+	},
+	{
+		path: '/video',
+		name: 'video',
+		component: Video,
+
 	},
 ]
 
