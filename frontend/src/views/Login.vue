@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
 	data() {
 		return {
@@ -47,18 +46,29 @@ export default {
 	},
 	methods: {
 		login() {
-			const username = this.username
-			const password = this.password
-			console.log(username, password)
-			axios
-				.post('http://127.0.0.1:8000/auth/login/', {
-					username: username,
-					password: password,
+			this.$store
+				.dispatch('userLogin', {
+					username: this.username,
+					password: this.password,
 				})
-				.then(res => {
-					console.log(res)
+				.then(() => {
+					this.$router.push({ name: 'Dashboard' })
 				})
-			console.log(username, password)
+				.catch(err => {
+					console.log(err)
+				})
+			// const username = this.username
+			// const password = this.password
+			// console.log(username, password)
+			// axios
+			// 	.post('http://127.0.0.1:8000/auth/login/', {
+			// 		username: username,
+			// 		password: password,
+			// 	})
+			// 	.then(res => {
+			// 		console.log(res)
+			// 	})
+			// console.log(username, password)
 		},
 	},
 }

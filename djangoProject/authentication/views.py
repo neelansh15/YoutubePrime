@@ -11,6 +11,12 @@ from rest_framework import generics
 from .serializers import RegisterSerializer
 
 
+from rest_framework.permissions import IsAuthenticated
+class PostView(generics.RetrieveAPIView):
+    # this is so that users can access the api without log in 
+    permission_classes = (IsAuthenticated, )
+
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
