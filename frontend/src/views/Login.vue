@@ -34,6 +34,7 @@ export default {
 		return {
 			username: '',
 			password: '',
+			valid: null,
 			nameRules: [
 				v => !!v || 'Name is required',
 				v => (v && v.length < 50) || 'Name must be less than 50 characters',
@@ -46,6 +47,8 @@ export default {
 	},
 	methods: {
 		login() {
+			if(!this.valid) return;
+			
 			this.$store
 				.dispatch('userLogin', {
 					username: this.username,

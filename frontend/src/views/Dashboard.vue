@@ -42,6 +42,7 @@ export default {
 	name: 'Dashboard',
 	components: {},
 	data: () => ({
+		search_term: "",
 		vids: [
 			{
 				id: 1,
