@@ -19,17 +19,6 @@ def hello():
 
 @app.route("/register", methods=["POST"])
 def register():
-    user = auth.create_user(
-        email='user@example.com',
-        email_verified=False,
-        phone_number='+15555550100',
-        password='secretPassword',
-        display_name='John Doe',
-        photo_url='http://www.example.com/12345678/photo.png',
-        disabled=False
-    )
-    print('Sucessfully created new user: {0}'.format(user.uid))
-
     if request.method == "POST":
         user = auth.create_user(
             email= request.args.get('email', ''),
@@ -42,7 +31,7 @@ def register():
         print('Sucessfully created new user: {0}'.format(user.uid))
         return user.email
     else:
-        print("Only POST method allowed")
+        return "Only POST method allowed"
 
 
 
