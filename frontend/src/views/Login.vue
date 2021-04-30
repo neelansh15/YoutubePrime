@@ -47,8 +47,8 @@ export default {
 	},
 	methods: {
 		login() {
-			if(!this.valid) return;
-			
+			if (!this.valid) return
+
 			this.$store
 				.dispatch('userLogin', {
 					username: this.username,

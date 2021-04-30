@@ -8,17 +8,18 @@ Vue.config.productionTip = false
 
 // if a page needs user to be logged in
 // if the user isnt logged in redirect to login page
-router.beforeEach((to, from, next) => {
-	if (to.matched.some(record => record.meta.requiresLogin)) {
-		if (!store.getters.loggedIn) {
-			next({ name: 'Login' })
-		} else {
-			next()
-		}
-	} else {
-		next()
-	}
-})
+
+// router.beforeEach((to, from, next) => {
+// 	if (to.matched.some(record => record.meta.requiresLogin)) {
+// 		if (!store.getters.loggedIn) {
+// 			next({ name: 'Login' })
+// 		} else {
+// 			next()
+// 		}
+// 	} else {
+// 		next()
+// 	}
+// })
 
 new Vue({
 	router,
