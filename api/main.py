@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 
 import firebase_admin
@@ -11,15 +11,18 @@ firebase_admin.initialize_app(cred)
 def hello():
     return "Hello world!"
 
-@app.route("/register")
+@app.route("/register", methods=["POST"])
 def register():
-    user = auth.create_user(
-        email='user@example.com',
-        email_verified=False,
-        phone_number='+15555550100',
-        password='secretPassword',
-        display_name='John Doe',
-        photo_url='http://www.example.com/12345678/photo.png',
-        disabled=False
-    )
-    print('Sucessfully created new user: {0}'.format(user.uid))
+    if request.method == "POST":
+        user = auth.create_user(
+            email= request.args.get('email', ''),
+            password= request.args.get('password', ''),
+            display_name=request.args.get('display_name', ''),
+            photo_url=request.args.get('photo_url', ''),
+            disabled=False,
+        )
+        print(user)
+        print('Sucessfully created new user: {0}'.format(user.uid))
+        return user.email
+    else:
+        print("Only POST method allowed")
