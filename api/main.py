@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from dateutil.tz import gettz
+import json
 
 from flask import Flask, request
 app = Flask(__name__)
@@ -49,3 +50,18 @@ def downloadVideo():
     url = blob.generate_signed_url(expiration=expiration_time, version='v4')
     
     return f"<video src='{url}' width=500 height=500 autoplay></video><input value={url} disabled />"
+
+@app.route("/user", methods=["GET"])
+def getUserDetails():
+    # uid = request.args.get('uid', '')
+    uid = "4H3Cv1i8EVVUhKIHJc9Ek205nsr2"
+    user_record = auth.get_user(uid)
+
+    #TODO: Get user document from firestore too and add to resultant json
+
+    user = {
+        "uid": user_record.uid,
+        "email": user_record.email,
+        "display_name": user_record.display_name,
+    }
+    return json.dumps(user)
