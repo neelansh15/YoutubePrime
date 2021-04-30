@@ -63,17 +63,19 @@ def downloadVideo():
     
     return f"<video src='{url}' width=500 height=500 autoplay></video><input value={url} disabled />"
 
-# @app.route("/subscribe", methods=['POST'])
-# def subscribe():
-#     # token = request.args.get('accessToken', '')
-#     # decoded_token = auth.verify_id_token(token)
-#     # user_uid = decoded_token['uid']
-#     user_uid =request.args.get('username', '')
-#     channel_uid = request.args.get('channel_uid', '')
-#     channel_doc = [
-#         "uuid": channel_uid
-#     ]
-#     db.collection("users").document(user_uid).collection("subscriptions").insert(channel_doc)
+@app.route("/subscribe", methods=['POST'])
+def subscribe():
+    # token = request.args.get('accessToken', '')
+    # decoded_token = auth.verify_id_token(token)
+    # user_uid = decoded_token['uid']
+    data = request.get_json()
+    user_uid = data['username']
+    channel_uid = data['channel_uid']
+    channel_doc = {
+        "uuid": channel_uid
+    }
+
+    db.collection("users").document(user_uid).collection("subscriptions").add(channel_doc)
 
 @app.route("/user", methods=["GET"])
 def getUserDetails():
