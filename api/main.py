@@ -23,16 +23,25 @@ def hello():
 
 @app.route("/register", methods=["POST"])
 def register():
-        user = auth.create_user(
-            email= request.args.get('email', ''),
-            password= request.args.get('password', ''),
-            display_name=request.args.get('display_name', ''),
-            photo_url=request.args.get('photo_url', ''),
-            disabled=False,
-        )
-        print(user)
-        print('Sucessfully created new user: {0}'.format(user.uid))
-        return user.email
+    #TODO: 1) Use RegEx to verify user credentials. 2) Add try catch and return errors
+    user_json = request.get_json(force=True)
+    user = auth.create_user(
+        email= user_json['email'],
+        password= user_json['password'],
+        display_name=user_json['display_name'],
+        photo_url=user_json['photo_url'],
+    )
+    
+    db.collection("users").document(user.uid).set({
+        "uid": user.uid,
+        "email": user.email,
+        "display_name": user.display_name,
+        "photo_url": user.photo_url,
+        "subscriber_count": 0
+    })
+
+    print('Sucessfully created new user: {0} {1}'.format(user.email, user.uid))
+    return user.email
 
 @app.route("/upload-video", methods=['GET'])
 def uploadVideo():
