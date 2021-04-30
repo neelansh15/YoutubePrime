@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 
 import firebase_admin
@@ -17,7 +17,7 @@ firebase_admin.initialize_app(cred, {
 def hello():
     return "Hello world!"
 
-@app.route("/register")
+@app.route("/register", methods=["POST"])
 def register():
     user = auth.create_user(
         email='user@example.com',
@@ -29,6 +29,21 @@ def register():
         disabled=False
     )
     print('Sucessfully created new user: {0}'.format(user.uid))
+
+    if request.method == "POST":
+        user = auth.create_user(
+            email= request.args.get('email', ''),
+            password= request.args.get('password', ''),
+            display_name=request.args.get('display_name', ''),
+            photo_url=request.args.get('photo_url', ''),
+            disabled=False,
+        )
+        print(user)
+        print('Sucessfully created new user: {0}'.format(user.uid))
+        return user.email
+    else:
+        print("Only POST method allowed")
+
 
 
 @app.route("/upload-video", methods=['GET','POST'])
@@ -50,5 +65,5 @@ def downloadVideo():
 
         blob.download_to_filename("C:\\Users\\vedant\\Desktop\\abc.mp4")
         return 'Successful'
-
 # if given "videos/videoName" then storage.child("videos/videoName").get_url(None)
+
