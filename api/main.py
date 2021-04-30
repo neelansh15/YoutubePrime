@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from dateutil.tz import gettz
+import json
 
 from flask import Flask, request
 app = Flask(__name__)
@@ -53,15 +54,29 @@ def downloadVideo():
     
     return f"<video src='{url}' width=500 height=500 autoplay></video><input value={url} disabled />"
 
-@app.route("/subscribe", methods=['POST'])
-def subscribe():
-    # token = request.args.get('accessToken', '')
-    # decoded_token = auth.verify_id_token(token)
-    # user_uid = decoded_token['uid']
-    user_uid =request.args.get('username', '')
-    channel_uid = request.args.get('channel_uid', '')
-    channel_doc = [
-        "uuid": channel_uid
-    ]
+# @app.route("/subscribe", methods=['POST'])
+# def subscribe():
+#     # token = request.args.get('accessToken', '')
+#     # decoded_token = auth.verify_id_token(token)
+#     # user_uid = decoded_token['uid']
+#     user_uid =request.args.get('username', '')
+#     channel_uid = request.args.get('channel_uid', '')
+#     channel_doc = [
+#         "uuid": channel_uid
+#     ]
+#     db.collection("users").document(user_uid).collection("subscriptions").insert(channel_doc)
 
-    db.collection("users").document(user_uid).collection("subscriptions").insert(channel_doc)
+@app.route("/user", methods=["GET"])
+def getUserDetails():
+    # uid = request.args.get('uid', '')
+    uid = "4H3Cv1i8EVVUhKIHJc9Ek205nsr2"
+    user_record = auth.get_user(uid)
+
+    #TODO: Get user document from firestore too and add to resultant json
+
+    user = {
+        "uid": user_record.uid,
+        "email": user_record.email,
+        "display_name": user_record.display_name,
+    }
+    return json.dumps(user)
