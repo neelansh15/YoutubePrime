@@ -5,13 +5,16 @@ from flask import Flask, request
 app = Flask(__name__)
 
 import firebase_admin
-from firebase_admin import credentials, auth, storage
+from firebase_admin import credentials, auth, storage , firestore
 from flask import request
+
+
 
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     "storageBucket": "prime-43c05.appspot.com",
 })
+db = firestore.client()
 
 @app.route("/")
 def hello():
@@ -49,3 +52,16 @@ def downloadVideo():
     url = blob.generate_signed_url(expiration=expiration_time, version='v4')
     
     return f"<video src='{url}' width=500 height=500 autoplay></video><input value={url} disabled />"
+
+@app.route("/subscribe", methods=['POST'])
+def subscribe():
+    # token = request.args.get('accessToken', '')
+    # decoded_token = auth.verify_id_token(token)
+    # user_uid = decoded_token['uid']
+    user_uid =request.args.get('username', '')
+    channel_uid = request.args.get('channel_uid', '')
+    channel_doc = [
+        "uuid": channel_uid
+    ]
+
+    db.collection("users").document(user_uid).collection("subscriptions").insert(channel_doc)
