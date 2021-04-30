@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+from dateutil.tz import gettz
+
 from flask import Flask, request
 app = Flask(__name__)
 
@@ -37,10 +40,12 @@ def uploadVideo():
 
 @app.route("/download-video", methods=['GET'])
 def downloadVideo():
-    bucket = storage.bucket('prime-43c05.appspot')
+    bucket = storage.bucket()
     blob = bucket.blob("videos/new.mp4")
+    
+    expiration_time = datetime.now(tz=gettz('Asia/Kolkata'))+ timedelta(minutes=1)
+    print(expiration_time)
 
-    # blob.download_to_filename("E:\\Documents\\Programming\\onlyPrime\\abc.mp4")
-    return blob.getDownloadURL()
-# if given "videos/videoName" then storage.child("videos/videoName").get_url(None)
-
+    url = blob.generate_signed_url(expiration=expiration_time, version='v4')
+    
+    return f"<video src='{url}' width=500 height=500 autoplay></video><input value={url} disabled />"
