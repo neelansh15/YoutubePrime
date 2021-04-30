@@ -142,6 +142,7 @@ JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': {
         'rest_framework.authentication.backends.JWTAuthentication'
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     }
 }
 

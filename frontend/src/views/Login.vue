@@ -29,12 +29,12 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
 	data() {
 		return {
 			username: '',
 			password: '',
+			valid: null,
 			nameRules: [
 				v => !!v || 'Name is required',
 				v => (v && v.length < 50) || 'Name must be less than 50 characters',
@@ -47,18 +47,31 @@ export default {
 	},
 	methods: {
 		login() {
-			const username = this.username
-			const password = this.password
-			console.log(username, password)
-			axios
-				.post('http://127.0.0.1:8000/auth/login/', {
-					username: username,
-					password: password,
+			if(!this.valid) return;
+			
+			this.$store
+				.dispatch('userLogin', {
+					username: this.username,
+					password: this.password,
 				})
-				.then(res => {
-					console.log(res)
+				.then(() => {
+					this.$router.push({ name: 'Dashboard' })
 				})
-			console.log(username, password)
+				.catch(err => {
+					console.log(err)
+				})
+			// const username = this.username
+			// const password = this.password
+			// console.log(username, password)
+			// axios
+			// 	.post('http://127.0.0.1:8000/auth/login/', {
+			// 		username: username,
+			// 		password: password,
+			// 	})
+			// 	.then(res => {
+			// 		console.log(res)
+			// 	})
+			// console.log(username, password)
 		},
 	},
 }
