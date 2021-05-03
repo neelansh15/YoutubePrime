@@ -86,15 +86,22 @@ def uploadVideo():
     file = request.files["myfile"]
     print(file.filename)
     
-    data = request.get_json(force=True)
-    token = data["idToken"]
-    decoded_token = auth.verify_id_token(token)
-    user_uid = decoded_token['uid']
+    # data = request.form
+    # token = data["idToken"]
+    # decoded_token = auth.verify_id_token(token)
+    # user_uid = decoded_token['uid']
 
+    # doc = dict(request.form)
 
-    bucket = storage.bucket()
-    blob = bucket.blob("videos/cIVZdgPl5deSZNwAnePk.mp4")
-    blob.upload_from_string(file.read())
+    # type = file.filename
+
+    # db.collection("users").doc(user_uid).collection("videos").add(doc)
+
+    # # db.collection("users").doc(user_uid).collection("videos").where
+
+    # bucket = storage.bucket()
+    # blob = bucket.blob(f"videos/cIVZdgPl5deSZNwAnePk.${doc["type"]}")
+    # blob.upload_from_string(file.read())
     return 'Successful'
 
 @app.route("/download-video", methods=['POST'])
