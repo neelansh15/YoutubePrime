@@ -125,15 +125,18 @@ def getUserSubscribedChannels():
     return video_ids
 
 
-# @app.route("/top-channels", methods=["POST"])
-# def getTopChannel():
+@app.route("/top-channels", methods=["POST"])
+def getTopChannel():
+    channels = db.collection(u'users').order_by(u'subscriber_count', direction=firestore.Query.DESCENDING).limit(3).stream()
+    for channel in channels:
+        print(channel.id)
 
 
 ### FILEDS
 '''
 users
     login cred
-    ubscriber_count
+    subscriber_count
     + subscriptions collection: list of subscribed channels
     + video collection: object of meta data for videos
 
