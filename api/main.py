@@ -88,6 +88,8 @@ def uploadVideo():
 
 @app.route("/download-video", methods=['GET'])
 def downloadVideo():
+    # data = request.get_json()
+    # videoId = data['videoId']
     bucket = storage.bucket()
     blob = bucket.blob("videos/new.mp4")
     
@@ -139,7 +141,6 @@ def getUserDetails():
 @app.route("/user-subscription", methods=["POST"])
 def getUserSubscribedChannels():
     data = request.get_json()
-    data = request.get_json()
     token = data['accessToken']
     decoded_token = auth.verify_id_token(token)
     user_uid = decoded_token['uid']
@@ -149,21 +150,37 @@ def getUserSubscribedChannels():
     video_ids = []
     
     for channel in channels:
-        channel_uids.append(channel.to_dict()["uuid"])
+        channel_uids.append(channel.id)
     
     for channel_uid in channel_uids:
         videos = db.collection("users").document(channel_uid).collection("videos").stream()
         for video in videos:
             video_ids.append(video.id)
-    print(video_ids)
+
     return video_ids
 
 
 @app.route("/top-channels", methods=["POST"])
 def getTopChannel():
+    data = request.get_json()
+    token = data['accessToken']
+    decoded_token = auth.verify_id_token(token)
+    user_uid = decoded_token['uid']
     channels = db.collection(u'users').order_by(u'subscriber_count', direction=firestore.Query.DESCENDING).limit(3).stream()
+    channel_ids = []
     for channel in channels:
-        print(channel.id)
+        channel_ids.append(channel.id)
+    
+    channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
+    channel_uids = []
+    for channel in channels:
+        channel_uids.append(channel.id)
+    for i in channel_ids:
+        if i in channel_uids:
+            channel_ids.remove(i)
+        print(i)
+        print("\n")
+    return channel_ids
 
 
 ### FILEDS
@@ -189,5 +206,7 @@ get video data route for meta data in dashboard
 
 REMOVE USER GOES SECOND FROM MIN MAX TIC TAC
 
+upload video
+single video route
 
 '''
