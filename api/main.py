@@ -127,6 +127,8 @@ def getUserDetails():
 
     return json.dumps(userDocData)
 
+
+
 # NOT TESTED
 @app.route("/user-subscription", methods=["POST"])
 def getUserSubscribedChannels():
@@ -176,6 +178,7 @@ Storage:
 #TODO
 authentication in download video
 use auth tokens instead of username in user subscriptions
+
 Remove channels from top channels if user is already subscribed
 get video data route for meta data in dashboard
 
