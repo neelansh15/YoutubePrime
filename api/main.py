@@ -78,10 +78,15 @@ def login():
     else:
         return "[Error] " + user
 
-@app.route("/upload-video", methods=['GET'])
+@app.route("/upload", methods=['POST'])
 def uploadVideo():
-    file = request.form["file"]
-    print(file)    
+    if 'myfile' not in request.files:
+        return "No file part"
+
+    file = request.files["myfile"]
+    print(file.filename)    
+    
+    return "OK"
     # data = request.get_json(force=True)
     # token = data["idToken"]
     # decoded_token = auth.verify_id_token(token)
