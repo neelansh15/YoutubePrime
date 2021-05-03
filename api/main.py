@@ -22,6 +22,7 @@ pyrebaseConfig = {
     "serviceAccount": "serviceAccountKey.json"
 }
 
+
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     "storageBucket": "prime-43c05.appspot.com",
@@ -58,10 +59,10 @@ def register():
 
 @app.route("/upload-video", methods=['GET'])
 def uploadVideo():
-    bucket = storage.bucket()
-    blob = bucket.blob("videos/new2.mp4")
+    bucket = storage.bucket('prime-43c05.appspot.com')
+    blob = bucket.blob("videos/cIVZdgPl5deSZNwAnePk.mp4")
 
-    blob.upload_from_filename("E:\\Documents\\Programming\\onlyPrime\\abc.mp4")
+    blob.upload_from_filename("C:\\Users\\vedant\\Desktop\\somaiya\\test.mp4")
     return 'Successful'
 
 @app.route("/download-video", methods=['GET'])
@@ -78,16 +79,21 @@ def downloadVideo():
 
 @app.route("/subscribe", methods=['POST'])
 def subscribe():
+    data = request.get_json()
     # token = request.args.get('accessToken', '')
     # decoded_token = auth.verify_id_token(token)
     # user_uid = decoded_token['uid']
-    data = request.get_json()
     user_uid = data['username']
     channel_uid = data['channel_uid']
     channel_doc = {
         "uuid": channel_uid
     }
-
+    # when user subscribe add to list
+    current_user = db.collection("users").document(channel_uid).get().to_dict()
+    
+    db.collection("users").document(channel_uid).update({
+        "subscriber_count": int(current_user["subscriber_count"])+1
+    })
     db.collection("users").document(user_uid).collection("subscriptions").add(channel_doc)
 
 @app.route("/user", methods=["POST"])
@@ -103,3 +109,67 @@ def getUserDetails():
     userDocData = userDoc.to_dict()
 
     return json.dumps(userDocData)
+    user = {
+        "uid": user_record.uid,
+        "email": user_record.email,
+        "display_name": user_record.display_name,
+    }
+    return json.dumps(user)
+
+
+# NOT TESTED
+@app.route("/user-subscription", methods=["POST"])
+def getUserSubscribedChannels():
+    data = request.get_json()
+    # token = request.args.get('accessToken', '')
+    # decoded_token = auth.verify_id_token(token)
+    # user_uid = decoded_token['uid']
+    user_uid = data['username']
+    print(user_uid)
+    
+    channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
+    channel_uids = []
+    video_ids = []
+    
+    for channel in channels:
+        channel_uids.append(channel.to_dict()["uuid"])
+    
+    for channel_uid in channel_uids:
+        videos = db.collection("users").document(channel_uid).collection("videos").stream()
+        for video in videos:
+            video_ids.append(video.id)
+    print(video_ids)
+    return video_ids
+
+
+@app.route("/top-channels", methods=["POST"])
+def getTopChannel():
+    channels = db.collection(u'users').order_by(u'subscriber_count', direction=firestore.Query.DESCENDING).limit(3).stream()
+    for channel in channels:
+        print(channel.id)
+
+
+### FILEDS
+'''
+users
+    login cred
+    subscriber_count
+    + subscriptions collection: list of subscribed channels
+    + video collection: object of meta data for videos
+
+videos:
+    Meta data
+
+Storage:
+    Filename = video.id
+
+#TODO
+authentication in download video
+use auth tokens instead of username in user subscriptions
+Remove channels from top channels if user is already subscribed
+get video data route for meta data in dashboard
+
+REMOVE USER GOES SECOND FROM MIN MAX TIC TAC
+
+
+'''
