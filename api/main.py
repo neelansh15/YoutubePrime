@@ -6,8 +6,10 @@ from flask import Flask, request
 app = Flask(__name__)
 
 import firebase_admin
+
 from firebase_admin import credentials, auth, storage , firestore
 from flask import request
+
 
 
 
@@ -75,6 +77,11 @@ def subscribe():
         "uuid": channel_uid
     }
     # when user subscribe add to list
+    current_user = db.collection("users").document(channel_uid).get().to_dict()
+    
+    db.collection("users").document(channel_uid).update({
+        "subscriber_count": int(current_user["subscriber_count"])+1
+    })
     db.collection("users").document(user_uid).collection("subscriptions").add(channel_doc)
 
 @app.route("/user", methods=["GET"])
@@ -122,3 +129,19 @@ def getUserSubscribedChannels():
 # def getTopChannel():
 
 
+### FILEDS
+'''
+users
+    login cred
+    ubscriber_count
+    + subscriptions collection: list of subscribed channels
+    + video collection: object of meta data for videos
+
+videos:
+    Meta data
+
+Storage:
+    Filename = video.id
+
+
+'''
