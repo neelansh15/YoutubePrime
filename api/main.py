@@ -68,7 +68,7 @@ def login():
     
     #TODO: Regex to check password like OSTPL Exp 2 here
 
-    user = auth.sign_in_with_email_and_password(email, password)
+    user = pyreauth.sign_in_with_email_and_password(email, password)
     if(user['idToken']):
         return user['idToken']
     else:
@@ -97,10 +97,11 @@ def downloadVideo():
 @app.route("/subscribe", methods=['POST'])
 def subscribe():
     data = request.get_json()
-    # token = request.args.get('accessToken', '')
-    # decoded_token = auth.verify_id_token(token)
-    # user_uid = decoded_token['uid']
-    user_uid = data['username']
+    token = data['accessToken']
+    decoded_token = auth.verify_id_token(token)
+    user_uid = decoded_token['uid']
+    print(user_uid)
+    
     channel_uid = data['channel_uid']
     channel_doc = {
         "uuid": channel_uid
@@ -133,11 +134,10 @@ def getUserDetails():
 @app.route("/user-subscription", methods=["POST"])
 def getUserSubscribedChannels():
     data = request.get_json()
-    # token = request.args.get('accessToken', '')
-    # decoded_token = auth.verify_id_token(token)
-    # user_uid = decoded_token['uid']
-    user_uid = data['username']
-    print(user_uid)
+    data = request.get_json()
+    token = data['accessToken']
+    decoded_token = auth.verify_id_token(token)
+    user_uid = decoded_token['uid']
     
     channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
     channel_uids = []
