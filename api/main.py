@@ -161,7 +161,6 @@ def getUserDetails():
     return json.dumps(userDocData)
 
 
-
 # NOT TESTED
 @app.route("/user-subscription", methods=["POST"])
 def getUserSubscribedChannels():
@@ -227,7 +226,7 @@ def getMetaData():
     '''
     :Params: video_id and channel_id
     :returns: Meta data
-    :return type: dictionary
+    :return type: json
     '''
     data = request.get_json()
     video_id = data['video_id']
@@ -250,7 +249,6 @@ def getSubscribedChannels():
     
     for channel in channels:
         channel_uids.append(channel.id)
-    print(channel_uids)
     return channel_uids
 
 ### FILEDS
