@@ -84,20 +84,18 @@ def uploadVideo():
         return "No file part"
 
     file = request.files["myfile"]
-    print(file.filename)    
+    print(file.filename)
     
-    return "OK"
-    # data = request.get_json(force=True)
-    # token = data["idToken"]
-    # decoded_token = auth.verify_id_token(token)
-    # user_uid = decoded_token['uid']
+    data = request.get_json(force=True)
+    token = data["idToken"]
+    decoded_token = auth.verify_id_token(token)
+    user_uid = decoded_token['uid']
 
 
-    # bucket = storage.bucket()
-    # blob = bucket.blob("videos/cIVZdgPl5deSZNwAnePk.mp4")
-
-    # blob.upload_from_filename("C:\\Users\\vedant\\Desktop\\somaiya\\test.mp4")
-    # return 'Successful'
+    bucket = storage.bucket()
+    blob = bucket.blob("videos/cIVZdgPl5deSZNwAnePk.mp4")
+    blob.upload_from_string(file.read())
+    return 'Successful'
 
 @app.route("/download-video", methods=['POST'])
 def downloadVideo():
