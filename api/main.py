@@ -146,5 +146,10 @@ videos:
 Storage:
     Filename = video.id
 
+#TODO
+authentication in download video
+use auth tokens instead of username in user subscriptions
+Remove channels from top channels if user is already subscribed
+
 
 '''
