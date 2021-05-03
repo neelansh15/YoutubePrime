@@ -10,9 +10,6 @@ import firebase_admin
 from firebase_admin import credentials, auth, storage , firestore
 from flask import request
 
-
-
-
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     "storageBucket": "prime-43c05.appspot.com",
@@ -149,10 +146,9 @@ Storage:
 #TODO
 authentication in download video
 use auth tokens instead of username in user subscriptions
+
 Remove channels from top channels if user is already subscribed
 get video data route for meta data in dashboard
 
 REMOVE USER GOES SECOND FROM MIN MAX TIC TAC
-
-
 '''
