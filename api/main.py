@@ -23,6 +23,9 @@ pyrebaseConfig = {
 }
 
 
+firebase = pyrebase.initialize_app(pyrebaseConfig)
+pyreauth = firebase.auth()
+
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     "storageBucket": "prime-43c05.appspot.com",
@@ -56,6 +59,20 @@ def register():
     
     access_token = auth.create_custom_token(user.uid)
     return access_token
+
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json(force=True)
+    email = data["email"]
+    password = data["password"]
+    
+    #TODO: Regex to check password like OSTPL Exp 2 here
+
+    user = auth.sign_in_with_email_and_password(email, password)
+    if(user['idToken']):
+        return user['idToken']
+    else:
+        return "[Error] " + user
 
 @app.route("/upload-video", methods=['GET'])
 def uploadVideo():
@@ -109,13 +126,6 @@ def getUserDetails():
     userDocData = userDoc.to_dict()
 
     return json.dumps(userDocData)
-    user = {
-        "uid": user_record.uid,
-        "email": user_record.email,
-        "display_name": user_record.display_name,
-    }
-    return json.dumps(user)
-
 
 # NOT TESTED
 @app.route("/user-subscription", methods=["POST"])
