@@ -103,7 +103,7 @@ def downloadVideo():
 @app.route("/subscribe", methods=['POST'])
 def subscribe():
     data = request.get_json()
-    token = data['accessToken']
+    token = data['idToken']
     decoded_token = auth.verify_id_token(token)
     user_uid = decoded_token['uid']
     print(user_uid)
@@ -141,7 +141,7 @@ def getUserDetails():
 @app.route("/user-subscription", methods=["POST"])
 def getUserSubscribedChannels():
     data = request.get_json()
-    token = data['accessToken']
+    token = data['idToken']
     decoded_token = auth.verify_id_token(token)
     user_uid = decoded_token['uid']
     
@@ -163,7 +163,7 @@ def getUserSubscribedChannels():
 @app.route("/top-channels", methods=["POST"])
 def getTopChannel():
     data = request.get_json()
-    token = data['accessToken']
+    token = data['idToken']
     decoded_token = auth.verify_id_token(token)
     user_uid = decoded_token['uid']
     channels = db.collection(u'users').order_by(u'subscriber_count', direction=firestore.Query.DESCENDING).limit(3).stream()
