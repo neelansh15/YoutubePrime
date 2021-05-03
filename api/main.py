@@ -229,8 +229,8 @@ def getMetaData():
     channel_id = data['channel_id']
     meta = db.collection("users").document(channel_id).collection("videos").document(video_id).get()
     meta = meta.to_dict()
-    # Make json
-    return meta
+
+    return json.dumps(meta)
 
 
 @app.route("/getAllSubsriptions", methods=["POST"])
@@ -240,7 +240,6 @@ def getSubscribedChannels():
     decoded_token = auth.verify_id_token(token)
     user_uid = decoded_token['uid']
     print(user_uid)
-    
     channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
     channel_uids = []
     
