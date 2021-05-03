@@ -150,6 +150,9 @@ Storage:
 authentication in download video
 use auth tokens instead of username in user subscriptions
 Remove channels from top channels if user is already subscribed
+get video data route for meta data in dashboard
+
+REMOVE USER GOES SECOND FROM MIN MAX TIC TAC
 
 
 '''
