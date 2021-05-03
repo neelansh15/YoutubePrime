@@ -1,15 +1,19 @@
 # youtube-prime
 
-# Routes 
+# Routes
+
 ## Pyrebase
-login (full)
+
+login + register (REGEX)
 register (incomplete rn)
 logout
 
 ## Others
-single video route (only metadata)
-single video route (metadata + generated url)
 
-upload video (storage + firestore)
+- [x] single video route (only metadata)
+- [x] single video route (metadata + generated url)
 
-remove (manage) subscription in account page
+- [ ] upload video (storage + firestore)
+- [ ] download video auth
+- [ ] subscribed channels
+- [x] remove (manage) subscription in account page

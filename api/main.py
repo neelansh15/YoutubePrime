@@ -94,12 +94,22 @@ def uploadVideo():
     # blob.upload_from_filename("C:\\Users\\vedant\\Desktop\\somaiya\\test.mp4")
     # return 'Successful'
 
-@app.route("/download-video", methods=['GET'])
+@app.route("/download-video", methods=['POST'])
 def downloadVideo():
-    # data = request.get_json()
-    # videoId = data['videoId']
+    '''
+    :Params: video_id, channel_id
+    '''
+
+    # TODO: AUTHENTICATION
+    data = request.get_json()
+    video_id = data['video_id']
+    channel_id = data['channel_id']
+    meta = db.collection("users").document(channel_id).collection("videos").document(video_id).get()
+    meta = meta.to_dict()
+    extension = meta["type"]
+
     bucket = storage.bucket()
-    blob = bucket.blob("videos/new.mp4")
+    blob = bucket.blob(f"videos/{video_id}.{extension}")
     
     expiration_time = datetime.now(tz=gettz('Asia/Kolkata')) + timedelta(minutes=1)
     print(expiration_time)
@@ -202,6 +212,22 @@ def removeSubscription():
         "subscriber_count": int(current_user["subscriber_count"]) - 1
     })
     db.collection("users").document(user_uid).collection("subscriptions").document(channel_uid).delete()
+
+@app.route("/video-meta", methods=["POST"])
+def getMetaData():
+    '''
+    :Params: video_id and channel_id
+    :returns: Meta data
+    :return type: dictionary
+    '''
+    data = request.get_json()
+    video_id = data['video_id']
+    channel_id = data['channel_id']
+    meta = db.collection("users").document(channel_id).collection("videos").document(video_id).get()
+    meta = meta.to_dict()
+    # Make json
+    return meta
+
 
 ### FILEDS
 '''
