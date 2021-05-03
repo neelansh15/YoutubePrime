@@ -19,6 +19,7 @@ pyrebaseConfig = {
     "messagingSenderId": "236302739370",
     "appId": "1:236302739370:web:ec079001c46176d29bedd3",
     "measurementId": "G-RYD5FJW22L",
+    "databaseURL": "https://prime-43c05.firebaseio.com",
     "serviceAccount": "serviceAccountKey.json"
 }
 
@@ -47,17 +48,19 @@ def register():
         "photo_url": user_json['photo_url'],
     }
 
-    new_user = pyreauth.create_user_with_email_and_password(email, password)
+    new_user = pyreauth.create_user_with_email_and_password(user["email"], user["password"])
+
+    print(user["password"])
     
-    db.collection("users").document(new_user["uid"]).set({
-        "uid": user.uid,
-        "email": user.email,
-        "display_name": user.display_name,
-        "photo_url": user.photo_url,
+    db.collection("users").document(new_user["localId"]).set({
+        "uid": new_user["localId"],
+        "email": user["email"],
+        "display_name": user["display_name"],
+        "photo_url": user["photo_url"],
         "subscriber_count": 0
     })
     print(new_user)
-    print('Sucessfully created new user: {0} {1}'.format(user.email, new_user["uid"]))
+    print('Sucessfully created new user: {0} {1}'.format(user["email"], new_user["localId"]))
     
     return new_user['idToken']
 
