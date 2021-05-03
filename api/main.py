@@ -80,11 +80,19 @@ def login():
 
 @app.route("/upload-video", methods=['GET'])
 def uploadVideo():
-    bucket = storage.bucket('prime-43c05.appspot.com')
-    blob = bucket.blob("videos/cIVZdgPl5deSZNwAnePk.mp4")
+    file = request.form["file"]
+    print(file)    
+    # data = request.get_json(force=True)
+    # token = data["idToken"]
+    # decoded_token = auth.verify_id_token(token)
+    # user_uid = decoded_token['uid']
 
-    blob.upload_from_filename("C:\\Users\\vedant\\Desktop\\somaiya\\test.mp4")
-    return 'Successful'
+
+    # bucket = storage.bucket()
+    # blob = bucket.blob("videos/cIVZdgPl5deSZNwAnePk.mp4")
+
+    # blob.upload_from_filename("C:\\Users\\vedant\\Desktop\\somaiya\\test.mp4")
+    # return 'Successful'
 
 @app.route("/download-video", methods=['GET'])
 def downloadVideo():
