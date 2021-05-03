@@ -40,25 +40,26 @@ def hello():
 def register():
     #TODO: 1) Use RegEx to verify user credentials. 2) Add try catch and return errors
     user_json = request.get_json(force=True)
-    user = auth.create_user(
-        email= user_json['email'],
-        password= user_json['password'],
-        display_name=user_json['display_name'],
-        photo_url=user_json['photo_url'],
-    )
+    user = {
+        "email": user_json['email'],
+        "password": user_json['password'],
+        "display_name": user_json['display_name'],
+        "photo_url": user_json['photo_url'],
+    }
+
+    new_user = pyreauth.create_user_with_email_and_password(email, password)
     
-    db.collection("users").document(user.uid).set({
+    db.collection("users").document(new_user["uid"]).set({
         "uid": user.uid,
         "email": user.email,
         "display_name": user.display_name,
         "photo_url": user.photo_url,
         "subscriber_count": 0
     })
-
-    print('Sucessfully created new user: {0} {1}'.format(user.email, user.uid))
+    print(new_user)
+    print('Sucessfully created new user: {0} {1}'.format(user.email, new_user["uid"]))
     
-    access_token = auth.create_custom_token(user.uid)
-    return access_token
+    return new_user['idToken']
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -126,6 +127,7 @@ def getUserDetails():
     userDoc = db.collection("users").document(uid).get()
     userDocData = userDoc.to_dict()
 
+    #TODO: ALso fetch and return videos
     return json.dumps(userDocData)
 
 
