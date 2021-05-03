@@ -120,18 +120,15 @@ def subscribe():
     })
     db.collection("users").document(user_uid).collection("subscriptions").add(channel_doc)
 
+
 @app.route("/user", methods=["POST"])
 def getUserDetails():
-
     #TODO: Auth token for security, or add firebase rule to accept an auth header
-
     reqJSON = request.get_json(force=True)
     uid = reqJSON["uid"]
     # user_record = auth.get_user(uid) NOT REQUIRED
-
     userDoc = db.collection("users").document(uid).get()
     userDocData = userDoc.to_dict()
-
     #TODO: ALso fetch and return videos
     return json.dumps(userDocData)
 
@@ -182,6 +179,21 @@ def getTopChannel():
         print("\n")
     return channel_ids
 
+@app.route("/remove-subscription", methods=["POST"])
+def removeSubscription():
+    data = request.get_json()
+    token = data['idToken']
+    decoded_token = auth.verify_id_token(token)
+    user_uid = decoded_token['uid']
+    print(user_uid)
+    
+    channel_uid = data['channel_uid']
+    current_user = db.collection("users").document(channel_uid).get().to_dict()
+    
+    db.collection("users").document(channel_uid).update({
+        "subscriber_count": int(current_user["subscriber_count"]) - 1
+    })
+    db.collection("users").document(user_uid).collection("subscriptions").document(channel_uid).delete()
 
 ### FILEDS
 '''
