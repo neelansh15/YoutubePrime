@@ -80,10 +80,10 @@ def login():
 
 @app.route("/upload", methods=['POST'])
 def uploadVideo():
-    if 'file' not in request.files:
+    if 'myfile' not in request.files:
         return "No file part"
 
-    file = request.files["file"]
+    file = request.files["myfile"]
     print(file.filename)    
     
     return "OK"
