@@ -37,9 +37,9 @@ def register():
 @app.route("/upload-video", methods=['GET'])
 def uploadVideo():
     bucket = storage.bucket('prime-43c05.appspot.com')
-    blob = bucket.blob("videos/new2.mp4")
+    blob = bucket.blob("videos/cIVZdgPl5deSZNwAnePk.mp4")
 
-    blob.upload_from_filename("E:\\Documents\\Programming\\onlyPrime\\abc.mp4")
+    blob.upload_from_filename("C:\\Users\\vedant\\Desktop\\somaiya\\test.mp4")
     return 'Successful'
 
 @app.route("/download-video", methods=['GET'])
@@ -56,16 +56,16 @@ def downloadVideo():
 
 @app.route("/subscribe", methods=['POST'])
 def subscribe():
+    data = request.get_json()
     # token = request.args.get('accessToken', '')
     # decoded_token = auth.verify_id_token(token)
     # user_uid = decoded_token['uid']
-    data = request.get_json()
     user_uid = data['username']
     channel_uid = data['channel_uid']
     channel_doc = {
         "uuid": channel_uid
     }
-
+    # when user subscribe add to list
     db.collection("users").document(user_uid).collection("subscriptions").add(channel_doc)
 
 @app.route("/user", methods=["GET"])
@@ -82,3 +82,34 @@ def getUserDetails():
         "display_name": user_record.display_name,
     }
     return json.dumps(user)
+
+
+# NOT TESTED
+@app.route("/user-subscription", methods=["POST"])
+def getUserSubscribedChannels():
+    data = request.get_json()
+    # token = request.args.get('accessToken', '')
+    # decoded_token = auth.verify_id_token(token)
+    # user_uid = decoded_token['uid']
+    user_uid = data['username']
+    print(user_uid)
+    
+    channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
+    channel_uids = []
+    video_ids = []
+    
+    for channel in channels:
+        channel_uids.append(channel.to_dict()["uuid"])
+    
+    for channel_uid in channel_uids:
+        videos = db.collection("users").document(channel_uid).collection("videos").stream()
+        for video in videos:
+            video_ids.append(video.id)
+    print(video_ids)
+    return video_ids
+
+
+# @app.route("/top-channels", methods=["POST"])
+# def getTopChannel():
+
+
