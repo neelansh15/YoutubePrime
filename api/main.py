@@ -91,11 +91,8 @@ def uploadVideo():
     # token = data["idToken"]
     # decoded_token = auth.verify_id_token(token)
     # user_uid = decoded_token['uid']
-
-
     # bucket = storage.bucket()
     # blob = bucket.blob("videos/cIVZdgPl5deSZNwAnePk.mp4")
-
     # blob.upload_from_filename("C:\\Users\\vedant\\Desktop\\somaiya\\test.mp4")
     # return 'Successful'
 
@@ -154,7 +151,6 @@ def getUserDetails():
     userDocData = userDoc.to_dict()
     #TODO: ALso fetch and return videos
     return json.dumps(userDocData)
-
 
 
 # NOT TESTED
@@ -222,7 +218,7 @@ def getMetaData():
     '''
     :Params: video_id and channel_id
     :returns: Meta data
-    :return type: dictionary
+    :return type: json
     '''
     data = request.get_json()
     video_id = data['video_id']
@@ -245,7 +241,6 @@ def getSubscribedChannels():
     
     for channel in channels:
         channel_uids.append(channel.id)
-    print(channel_uids)
     return channel_uids
 
 ### FILEDS
