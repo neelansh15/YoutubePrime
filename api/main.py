@@ -1,6 +1,7 @@
+import os
+import json
 from datetime import datetime, timedelta
 from dateutil.tz import gettz
-import json
 
 from flask import Flask, request, Response
 from flask_cors import CORS, cross_origin
@@ -96,24 +97,28 @@ def uploadVideo():
         return "No file part"
 
     file = request.files["myfile"]
+    file_extension = os.path.splitext(file.filename)[1]
     print(file.filename)
+    print(file_extension)
+
     
-    # data = request.form
-    # token = data["idToken"]
-    # decoded_token = auth.verify_id_token(token)
-    # user_uid = decoded_token['uid']
+    data = request.form
+    token = data["idToken"]
+    decoded_token = auth.verify_id_token(token)
+    user_uid = decoded_token['uid']
 
-    # doc = dict(request.form)
+    doc = dict(request.form)
+    doc["type"] = file_extension
 
-    # type = file.filename
+    created_doc = db.collection("users").doc(user_uid).collection("videos").add(doc)
+    videoid = created_doc["uid"] #Maybe this is how it is returned? Need to look at this
 
-    # db.collection("users").doc(user_uid).collection("videos").add(doc)
+    #Now update the videos doc with the new uid of the video
+    # db.collection("users").doc(user_uid).collection("videos").where()
 
-    # # db.collection("users").doc(user_uid).collection("videos").where
-
-    # bucket = storage.bucket()
-    # blob = bucket.blob(f"videos/cIVZdgPl5deSZNwAnePk.${doc["type"]}")
-    # blob.upload_from_string(file.read())
+    bucket = storage.bucket()
+    blob = bucket.blob(f"videos/${videoid}.${file_extension}")
+    blob.upload_from_string(file.read())
     return 'Successful'
 
 @app.route("/download-video", methods=['POST'])
