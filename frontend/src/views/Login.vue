@@ -51,29 +51,20 @@ export default {
 	methods: {
 		login() {
 			// this should use email and password
-			if (!this.valid) return
+			// if (!this.valid) return
 
-			this.$store
-				.dispatch('userLogin', {
-					email: this.email,
-					password: this.password,
-				})
-				.then(() => {
-					this.$router.push({ name: 'Dashboard' })
-				})
-				.catch(err => {
-					console.log(err)
-				})
 			const inputEmail = this.email
 			const inputPassword = this.password
 			console.log(inputEmail, inputPassword)
+
 			axios
-				.post('http://127.0.0.1:5000/login/', {
+				.post('http://127.0.0.1:5000/login', {
 					email: inputEmail,
 					password: inputPassword,
 				})
 				.then(res => {
-					console.log(res)
+					const token = res.data
+					console.log(token)
 				})
 		},
 	},

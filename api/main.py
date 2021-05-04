@@ -2,14 +2,24 @@ from datetime import datetime, timedelta
 from dateutil.tz import gettz
 import json
 
-from flask import Flask, request
-app = Flask(__name__)
+from flask import Flask, request, Response
+from flask_cors import CORS, cross_origin
+from firebase_admin import credentials, auth, storage, firestore, initialize_app
 
-import firebase_admin
-from firebase_admin import credentials, auth, storage, firestore
-from flask import request
 
 import pyrebase
+app = Flask(__name__)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+CORS(app, resources={r"/login": {"origins": "http://localhost:8080"}})
+
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
 
 pyrebaseConfig = {
     "apiKey": "AIzaSyAkGjSyK949IiUwlD3wMjyRrZOb4Um8I9M",
@@ -28,7 +38,7 @@ firebase = pyrebase.initialize_app(pyrebaseConfig)
 pyreauth = firebase.auth()
 
 cred = credentials.Certificate("serviceAccountKey.json")
-firebase_admin.initialize_app(cred, {
+initialize_app(cred, {
     "storageBucket": "prime-43c05.appspot.com",
 })
 db = firestore.client()
@@ -65,7 +75,9 @@ def register():
     return new_user['idToken']
 
 @app.route("/login", methods=["POST"])
+# @cross_origin()
 def login():
+    print("HERE")
     data = request.get_json(force=True)
     email = data["email"]
     password = data["password"]
@@ -73,10 +85,11 @@ def login():
     #TODO: Regex to check password like OSTPL Exp 2 here
 
     user = pyreauth.sign_in_with_email_and_password(email, password)
-    if(user['idToken']):
-        return user['idToken']
+    if (user['idToken']):
+        return Response(user['idToken'], status=201, mimetype='application/json')
+
     else:
-        return "[Error] " + user
+        return Response(user, status=404, mimetype='application/json')
 
 @app.route("/upload", methods=['POST'])
 def uploadVideo():

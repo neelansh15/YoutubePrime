@@ -2,3 +2,5 @@ Flask
 firebase-admin
 pyrebase4
 dateutil
+flask-cors
+python-dateutil
