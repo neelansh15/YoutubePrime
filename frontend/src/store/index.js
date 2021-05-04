@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { getAPI } from '../axios-api'
+// import { getAPI } from '../axios-api'
 
 Vue.use(Vuex)
 
@@ -26,22 +26,22 @@ export default new Vuex.Store({
 		},
 	},
 	actions: {
-		userLogin(context, userCredintials) {
-			return new Promise(resolve => {
-				getAPI
-					.post('/auth/api-token/', {
-						username: userCredintials.username,
-						password: userCredintials.password,
-					})
-					.then(response => {
-						context.commit('updateStorage', {
-							access: response.data.access,
-							refresh: response.data.refresh,
-						})
-						resolve()
-					})
-			})
-		},
+		// userLogin(context, userCredintials) {
+		// 	return new Promise(resolve => {
+		// 		getAPI
+		// 			.post('/auth/api-token/', {
+		// 				username: userCredintials.username,
+		// 				password: userCredintials.password,
+		// 			})
+		// 			.then(response => {
+		// 				context.commit('updateStorage', {
+		// 					access: response.data.access,
+		// 					refresh: response.data.refresh,
+		// 				})
+		// 				resolve()
+		// 			})
+		// 	})
+		// },
 		userLogout(context) {
 			if (context.getters.loggedIn) {
 				context.commit('destroyToken')
