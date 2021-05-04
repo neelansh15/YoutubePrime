@@ -72,12 +72,11 @@ def register():
     print(new_user)
     print('Sucessfully created new user: {0} {1}'.format(user["email"], new_user["localId"]))
     
-    return new_user['idToken']
+    return Response(new_user['idToken'], status=201, mimetype='application/json')
 
 @app.route("/login", methods=["POST"])
 # @cross_origin()
 def login():
-    print("HERE")
     data = request.get_json(force=True)
     email = data["email"]
     password = data["password"]
