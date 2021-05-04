@@ -164,6 +164,7 @@ def subscribe():
         "subscriber_count": int(current_user["subscriber_count"])+1
     })
     db.collection("users").document(user_uid).collection("subscriptions").add(channel_doc)
+    return Response("OK", status=201, mimetype='application/json')
 
 
 @app.route("/user", methods=["POST"])
