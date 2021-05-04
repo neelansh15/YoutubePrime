@@ -1,5 +1,6 @@
 <template>
 	<v-container class="mt-5">
+		<v-btn @click="getVideos">TESt</v-btn>
 		<v-card color="deep-purple" class="pa-2">
 			<v-card-text class="white--text mt-1">
 				<h1>Welcome back, mneelansh! 🎉</h1>
@@ -35,14 +36,14 @@
 </template>
 
 <script>
-import { getAPI } from '../axios-api'
 import { mapState } from 'vuex'
+import axios from 'axios'
 
 export default {
 	name: 'Dashboard',
 	components: {},
 	data: () => ({
-		search_term: "",
+		search_term: '',
 		vids: [
 			{
 				id: 1,
@@ -89,17 +90,20 @@ export default {
 		],
 	}),
 	computed: mapState(['APIData']),
-	created() {
-		getAPI
-			.get('/videos/', {
-				headers: { Authorization: `Bearer ${this.$store.state.accessToken}` },
-			})
-			.then(response => {
-				this.$store.state.APIData = response.data
-			})
-			.catch(err => {
-				console.log(err)
-			})
+	methods: {
+		getVideos() {
+			let video_ids = []
+			let token =
+				'eyJhbGciOiJSUzI1NiIsImtpZCI6ImNjM2Y0ZThiMmYxZDAyZjBlYTRiMWJkZGU1NWFkZDhiMDhiYzUzODYiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiTmV3IFVzZXIgMiIsInBpY3R1cmUiOiJodHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTUxMTM2NzQ2MTk4OS1mODVhMjFmZGExNjc_aXhpZD1Nbnd4TWpBM2ZEQjhNSHh6WldGeVkyaDhNbng4Y0hKdlptbHNaWHhsYm53d2ZId3dmSHclM0QmaXhsaWI9cmItMS4yLjEmdz0xMDAwJnE9ODAiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcHJpbWUtNDNjMDUiLCJhdWQiOiJwcmltZS00M2MwNSIsImF1dGhfdGltZSI6MTYyMDExNzI4MSwidXNlcl9pZCI6ImpBWWt1TTNhM1BjZnFrMHZnYXBzTmVPeVhLNTIiLCJzdWIiOiJqQVlrdU0zYTNQY2ZxazB2Z2Fwc05lT3lYSzUyIiwiaWF0IjoxNjIwMTE3MjgxLCJleHAiOjE2MjAxMjA4ODEsImVtYWlsIjoibmV3dXNlcjJAZXhhbXBsZS5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibmV3dXNlcjJAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.olKHbpXIDr5slLvArlIEyu4hCR66b1hI8j6QqQCscgNGh4upglIKGtnXg7VTAGkNOlZlZrhkXSSb3Xm95cB84PgGEbQD5xxfxVJMfE8pNc4kMCVfnbVCBhEhFmjXpwinfjY28zhGwkW8lZhFiYO400BebPpCRmFnPW5HjenSm5Qm1XW-2xl3omRcq_unlFJTtY4WJ6lnVo-15MVNKyAJSs19UncPJpYWsr9THklVMwmqQwjW2Vp7AwSsXPTACMzruKYbDYblTvczj5VRdXiFbemM-O2P_RhcWLwN-Pit4Zgoaa5oKKsD0ykV_LH4ZjMR8cjbk0GWJyKVFGMhnEdioA'
+			axios
+				.post('http://127.0.0.1:5000/user-subscription', {
+					idToken: token,
+				})
+				.then(res => {
+					video_ids.append(res.data)
+				})
+			axios.post('http://127.0.0.1:5000/video-meta', {})
+		},
 	},
 }
 </script>

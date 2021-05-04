@@ -197,7 +197,7 @@ def getUserSubscribedChannels():
         videos = db.collection("users").document(channel_uid).collection("videos").stream()
         for video in videos:
             video_ids.append(video.id)
-    return video_ids
+    return Response(video_ids, status=201, mimetype='application/json')
 
 
 @app.route("/top-channels", methods=["POST"])
