@@ -64,6 +64,7 @@ export default {
 				})
 				.then(res => {
 					const token = res.data
+					this.$store.commit('setToken', token)
 					console.log(token)
 				})
 		},

@@ -11,13 +11,11 @@ export default new Vuex.Store({
 		APIData: '',
 	},
 	mutations: {
-		updateStorage(state, { access, refresh }) {
-			state.accessToken = access
-			state.refreshToken = refresh
+		setToken(state, payload){
+			state.accessToken = payload
 		},
 		destroyToken(state) {
 			state.accessToken = null
-			state.refreshToken = null
 		},
 	},
 	getters: {
@@ -42,7 +40,7 @@ export default new Vuex.Store({
 		// 			})
 		// 	})
 		// },
-		userLogout(context) {
+		logout(context) {
 			if (context.getters.loggedIn) {
 				context.commit('destroyToken')
 			}
