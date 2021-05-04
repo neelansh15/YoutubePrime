@@ -5,9 +5,9 @@
 				<v-row>
 					<v-col>
 						<v-text-field
-							v-model="username"
+							v-model="email"
 							:rules="nameRules"
-							label="Username"
+							label="Email"
 							required
 						></v-text-field>
 					</v-col>
@@ -23,16 +23,19 @@
 					</v-col>
 				</v-row>
 				<v-btn @click="login">Log in</v-btn>
+				<v-btn to="/register">Sign up</v-btn>
 			</v-form>
 		</v-card>
 	</div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
 	data() {
 		return {
-			username: '',
+			email: '',
 			password: '',
 			valid: null,
 			nameRules: [
@@ -47,11 +50,12 @@ export default {
 	},
 	methods: {
 		login() {
+			// this should use email and password
 			if (!this.valid) return
 
 			this.$store
 				.dispatch('userLogin', {
-					username: this.username,
+					email: this.email,
 					password: this.password,
 				})
 				.then(() => {
@@ -60,18 +64,17 @@ export default {
 				.catch(err => {
 					console.log(err)
 				})
-			// const username = this.username
-			// const password = this.password
-			// console.log(username, password)
-			// axios
-			// 	.post('http://127.0.0.1:8000/auth/login/', {
-			// 		username: username,
-			// 		password: password,
-			// 	})
-			// 	.then(res => {
-			// 		console.log(res)
-			// 	})
-			// console.log(username, password)
+			const inputEmail = this.email
+			const inputPassword = this.password
+			console.log(inputEmail, inputPassword)
+			axios
+				.post('http://127.0.0.1:5000/login/', {
+					email: inputEmail,
+					password: inputPassword,
+				})
+				.then(res => {
+					console.log(res)
+				})
 		},
 	},
 }
