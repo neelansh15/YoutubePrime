@@ -197,7 +197,9 @@ def getUserSubscribedChannels():
     token = data['idToken']
     decoded_token = auth.verify_id_token(token)
     user_uid = decoded_token['uid']
+    print(token[:20])
     print(user_uid)
+
     
     channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
     channel_uids = []
@@ -222,7 +224,11 @@ def getTopChannel():
     token = data['idToken']
     decoded_token = auth.verify_id_token(token)
     user_uid = decoded_token['uid']
-    channels = db.collection(u'users').order_by(u'subscriber_count', direction=firestore.Query.DESCENDING).limit(3).stream()
+    print(token[:20])
+
+    print(user_uid)
+
+    channels = db.collection(u'users').order_by(u'subscriber_count', direction=firestore.Query.DESCENDING).limit(10).stream()
     channel_ids = []
     for channel in channels:
         channel_ids.append(channel.id)
@@ -232,11 +238,11 @@ def getTopChannel():
     for channel in channels:
         channel_uids.append(channel.id)
     for i in channel_ids:
-        if i in channel_uids:
+        if i in channel_uids or i == user_uid:
             channel_ids.remove(i)
         print(i)
         print("\n")
-    return channel_ids
+    return Response(json.dumps(channel_ids), status=201, mimetype='application/json')
 
 @app.route("/remove-subscription", methods=["POST"])
 def removeSubscription():
