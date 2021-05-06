@@ -39,7 +39,8 @@ export default {
 				})
 		},
 		logout() {
-			//make token = null in state
+			this.$store.commit('destroyToken')
+			this.$router.push({ name: 'Login' })
 		},
 	},
 }
