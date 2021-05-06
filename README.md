@@ -15,8 +15,18 @@ logout
 - [ ] upload video (storage + firestore)
 - [ ] download video auth
 - [x] subscribed channels
-- [ ] Log out route
+
 - [ ] app.before.route to check if token expired in main.py
 - [ ] Check if token expired on each page and before every action
 - [ ] the state store part and router push is left on register
 - [x] remove (manage) subscription in account page
+
+TODO
+
+- [ ] Dashboard thumnails and top channels
+- [ ] Channel thumbnails for videos
+- [ ] Channel check is subscribed
+- [ ] Video player
+- [ ] Accounts page (manage videos)
+- [ ] Regex in register
+- [ ] Search channels

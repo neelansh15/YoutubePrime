@@ -90,7 +90,8 @@ export default {
 				})
 				.then(res => {
 					const token = res.data
-					console.log(token)
+					this.$store.commit('setToken', token)
+					this.$router.push({ name: 'Dashboard' })
 				})
 		},
 	},
