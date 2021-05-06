@@ -108,17 +108,28 @@ def uploadVideo():
     user_uid = decoded_token['uid']
 
     doc = dict(request.form)
+    doc.pop("idToken") #Don't need to return this from the form
     doc["type"] = file_extension
 
-    created_doc = db.collection("users").doc(user_uid).collection("videos").add(doc)
-    videoid = created_doc["uid"] #Maybe this is how it is returned? Need to look at this
+    created_doc_tuple = db.collection("users").document(user_uid).collection("videos").add(doc)
+    print("Returned Doc: ")
+    print(created_doc_tuple)
+
+    created_doc_ref = created_doc_tuple[1]
+    print(created_doc_ref.get())
+
+    created_doc_data = created_doc_ref.get().data()
+    print(created_doc_data)
+
+    
+    # print(videoid)
 
     #Now update the videos doc with the new uid of the video
     # db.collection("users").doc(user_uid).collection("videos").where()
 
-    bucket = storage.bucket()
-    blob = bucket.blob(f"videos/${videoid}.${file_extension}")
-    blob.upload_from_string(file.read())
+    # bucket = storage.bucket()
+    # blob = bucket.blob(f"videos/${videoid}.${file_extension}")
+    # blob.upload_from_string(file.read())
     return 'Successful'
 
 @app.route("/download-video", methods=['POST'])
