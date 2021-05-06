@@ -116,21 +116,20 @@ def uploadVideo():
     print(created_doc_tuple)
 
     created_doc_ref = created_doc_tuple[1]
-    print(created_doc_ref.get())
 
-    created_doc_data = created_doc_ref.get().data()
-    print(created_doc_data)
+    video_id = created_doc_ref.id
+    print(video_id)
 
-    
-    # print(videoid)
+    created_doc_ref.update({
+        "uid": video_id
+    })
 
-    #Now update the videos doc with the new uid of the video
-    # db.collection("users").doc(user_uid).collection("videos").where()
+    #Upload to gcloud bucket
+    bucket = storage.bucket()
+    blob = bucket.blob(f"videos/${video_id}.${file_extension}")
+    blob.upload_from_string(file.read())
 
-    # bucket = storage.bucket()
-    # blob = bucket.blob(f"videos/${videoid}.${file_extension}")
-    # blob.upload_from_string(file.read())
-    return 'Successful'
+    return 'Successful ' + video_id
 
 @app.route("/download-video", methods=['POST'])
 def downloadVideo():
