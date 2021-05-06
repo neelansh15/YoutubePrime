@@ -125,8 +125,15 @@ def uploadVideo():
     video_id = created_doc_ref.id
     print(video_id)
 
+    blob_thumbnail = bucket.blob(f"images/{video_id}{thumbnail_extension}").makePublic()
+    blob_thumbnail.upload_from_string(thumbnail.read())
+
+    print("THUMBNAIL PUBLIC URL: ")
+    print(blob_thumbnail.public_url)
+
     created_doc_ref.update({
-        "uid": video_id
+        "uid": video_id,
+        "thumbnail_url": blob_thumbnail.public_url
     })
 
     #Upload to gcloud bucket
@@ -134,8 +141,6 @@ def uploadVideo():
     blob = bucket.blob(f"videos/{video_id}{file_extension}")
     blob.upload_from_string(file.read())
 
-    blob_thumbnail = bucket.blob(f"images/{video_id}{thumbnail_extension}")
-    blob_thumbnail.upload_from_string(thumbnail.read())
 
     return 'Successful ' + video_id
 
@@ -171,14 +176,14 @@ def getVideo():
     extension = meta["type"]
 
     bucket = storage.bucket()
-    blob = bucket.blob(f"videos/{video_id}{extension}")
-    
+    blob = bucket.blob(f"videos/{video_id}{extension}")    
+
     expiration_time = datetime.now(tz=gettz('Asia/Kolkata')) + timedelta(minutes=1)
     print(expiration_time)
 
     url = blob.generate_signed_url(expiration=expiration_time, version='v4')
     
-    return url
+    return json.dumps([url, meta])
 
 @app.route("/subscribe", methods=['POST'])
 def subscribe():
