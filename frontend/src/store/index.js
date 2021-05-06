@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
+		baseURL: 'http://localhost:5000',
 		accessToken: null,
 		refreshToken: null,
 		APIData: '',
