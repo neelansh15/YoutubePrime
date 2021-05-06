@@ -124,9 +124,11 @@ def uploadVideo():
 
     video_id = created_doc_ref.id
     print(video_id)
+    bucket = storage.bucket()
 
-    blob_thumbnail = bucket.blob(f"images/{video_id}{thumbnail_extension}").makePublic()
+    blob_thumbnail = bucket.blob(f"images/{video_id}{thumbnail_extension}")
     blob_thumbnail.upload_from_string(thumbnail.read())
+    blob_thumbnail.make_public()
 
     print("THUMBNAIL PUBLIC URL: ")
     print(blob_thumbnail.public_url)
@@ -137,7 +139,7 @@ def uploadVideo():
     })
 
     #Upload to gcloud bucket
-    bucket = storage.bucket()
+    # bucket = storage.bucket()
     blob = bucket.blob(f"videos/{video_id}{file_extension}")
     blob.upload_from_string(file.read())
 
