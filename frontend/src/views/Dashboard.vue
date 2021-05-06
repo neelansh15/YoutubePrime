@@ -94,16 +94,26 @@ export default {
 		getVideos() {
 			//get token and channel_id from vuex
 			let video_ids = []
+
 			let token =
-				'eyJhbGciOiJSUzI1NiIsImtpZCI6ImNjM2Y0ZThiMmYxZDAyZjBlYTRiMWJkZGU1NWFkZDhiMDhiYzUzODYiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiTmV3IFVzZXIgMiIsInBpY3R1cmUiOiJodHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTUxMTM2NzQ2MTk4OS1mODVhMjFmZGExNjc_aXhpZD1Nbnd4TWpBM2ZEQjhNSHh6WldGeVkyaDhNbng4Y0hKdlptbHNaWHhsYm53d2ZId3dmSHclM0QmaXhsaWI9cmItMS4yLjEmdz0xMDAwJnE9ODAiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcHJpbWUtNDNjMDUiLCJhdWQiOiJwcmltZS00M2MwNSIsImF1dGhfdGltZSI6MTYyMDExNzI4MSwidXNlcl9pZCI6ImpBWWt1TTNhM1BjZnFrMHZnYXBzTmVPeVhLNTIiLCJzdWIiOiJqQVlrdU0zYTNQY2ZxazB2Z2Fwc05lT3lYSzUyIiwiaWF0IjoxNjIwMTE3MjgxLCJleHAiOjE2MjAxMjA4ODEsImVtYWlsIjoibmV3dXNlcjJAZXhhbXBsZS5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibmV3dXNlcjJAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.olKHbpXIDr5slLvArlIEyu4hCR66b1hI8j6QqQCscgNGh4upglIKGtnXg7VTAGkNOlZlZrhkXSSb3Xm95cB84PgGEbQD5xxfxVJMfE8pNc4kMCVfnbVCBhEhFmjXpwinfjY28zhGwkW8lZhFiYO400BebPpCRmFnPW5HjenSm5Qm1XW-2xl3omRcq_unlFJTtY4WJ6lnVo-15MVNKyAJSs19UncPJpYWsr9THklVMwmqQwjW2Vp7AwSsXPTACMzruKYbDYblTvczj5VRdXiFbemM-O2P_RhcWLwN-Pit4Zgoaa5oKKsD0ykV_LH4ZjMR8cjbk0GWJyKVFGMhnEdioA'
+				'eyJhbGciOiJSUzI1NiIsImtpZCI6ImNjM2Y0ZThiMmYxZDAyZjBlYTRiMWJkZGU1NWFkZDhiMDhiYzUzODYiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiTmV3IFVzZXIgMiIsInBpY3R1cmUiOiJodHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTUxMTM2NzQ2MTk4OS1mODVhMjFmZGExNjc_aXhpZD1Nbnd4TWpBM2ZEQjhNSHh6WldGeVkyaDhNbng4Y0hKdlptbHNaWHhsYm53d2ZId3dmSHclM0QmaXhsaWI9cmItMS4yLjEmdz0xMDAwJnE9ODAiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcHJpbWUtNDNjMDUiLCJhdWQiOiJwcmltZS00M2MwNSIsImF1dGhfdGltZSI6MTYyMDMxNTkxMywidXNlcl9pZCI6ImpBWWt1TTNhM1BjZnFrMHZnYXBzTmVPeVhLNTIiLCJzdWIiOiJqQVlrdU0zYTNQY2ZxazB2Z2Fwc05lT3lYSzUyIiwiaWF0IjoxNjIwMzE1OTEzLCJleHAiOjE2MjAzMTk1MTMsImVtYWlsIjoibmV3dXNlcjJAZXhhbXBsZS5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibmV3dXNlcjJAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.B3m-1h2ZpcUMuHfvXCASXDFdWEqXZz71MgkEHbNmz-9cAGjgKbkCmN3iBxGMnNQns5QWOagOxJw7onjEp8Kz2Is3cpQC--gea9TF8sYuMYvt0wm9BU7qwMf-lelaM2rVBtkV2C12NyDaX3pc31gH3_NMlNOB2fjhwCNe4Xv6sr2XgbZsdBlTu2MEv1ZppQzsld332kK5bv6Dk81-twm-0rl4nZZ4GgrmU-k2oSglhWLh53IC4EkKwEyWN0mIIiPqYI-qunK4KziWkWNW6kSAAi-Q6airOtcEqrTiinA_oufwReUmAwZlb49IgXuClAq3-L8ZaeZGaJ-VLczcMZwzpg'
 			axios
 				.post('http://127.0.0.1:5000/user-subscription', {
 					idToken: token,
 				})
 				.then(res => {
-					video_ids.append(res.data)
+					video_ids = res.data
+					video_ids.forEach(element => {
+						axios
+							.post('http://127.0.0.1:5000/video-meta', {
+								channel_id: element[0],
+								video_id: element[1],
+							})
+							.then(res => {
+								console.log(res.data)
+							})
+					})
 				})
-			// axios.post('http://127.0.0.1:5000/video-meta', {})
 		},
 	},
 }

@@ -186,6 +186,7 @@ def getUserSubscribedChannels():
     token = data['idToken']
     decoded_token = auth.verify_id_token(token)
     user_uid = decoded_token['uid']
+    print(user_uid)
     
     channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
     channel_uids = []
@@ -194,11 +195,14 @@ def getUserSubscribedChannels():
     for channel in channels:
         channel_uids.append(channel.id)
     
+    print(channel_uids)
     for channel_uid in channel_uids:
         videos = db.collection("users").document(channel_uid).collection("videos").stream()
         for video in videos:
-            video_ids.append(video.id)
-    return Response(video_ids, status=201, mimetype='application/json')
+            video_ids.append((channel_uid, video.id))
+    print(video_ids)
+
+    return Response(json.dumps(video_ids), status=201, mimetype='application/json')
 
 
 @app.route("/top-channels", methods=["POST"])
