@@ -41,8 +41,10 @@
 						></v-text-field>
 					</v-col>
 				</v-row>
-				<v-btn to="/login">Log in</v-btn>
 				<v-btn @click="register">Sign up</v-btn>
+				<v-card-text
+					>Already have an account <v-btn to="/login">Log in</v-btn></v-card-text
+				>
 			</v-form>
 		</v-card>
 	</div>

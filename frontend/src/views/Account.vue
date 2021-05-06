@@ -2,7 +2,7 @@
 	<v-container>
 		<h1 class="mt-3">Account</h1>
 		<v-btn @click="getVideos">Videos</v-btn>
-		<v-btn @click="logOut">Log out</v-btn>
+		<v-btn @click="logout">Log out</v-btn>
 	</v-container>
 </template>
 
@@ -37,6 +37,10 @@ export default {
 							})
 					})
 				})
+		},
+		logout() {
+			this.$store.commit('destroyToken')
+			this.$router.push({ name: 'Login' })
 		},
 	},
 }

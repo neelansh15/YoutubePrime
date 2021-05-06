@@ -23,7 +23,9 @@
 					</v-col>
 				</v-row>
 				<v-btn @click="login">Log in</v-btn>
-				<v-btn to="/register">Sign up</v-btn>
+				<v-card-text
+					>Don't have an account?<v-btn to="/register">Sign up</v-btn></v-card-text
+				>
 			</v-form>
 		</v-card>
 	</div>
