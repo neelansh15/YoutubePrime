@@ -163,7 +163,8 @@ def subscribe():
     db.collection("users").document(channel_uid).update({
         "subscriber_count": int(current_user["subscriber_count"])+1
     })
-    db.collection("users").document(user_uid).collection("subscriptions").add(channel_doc)
+    db.collection("users").document(user_uid).collection("subscriptions").document(channel_uid).set(channel_doc)
+
     return Response("OK", status=201, mimetype='application/json')
 
 
@@ -204,7 +205,7 @@ def getUserSubscribedChannels():
             video_ids.append((channel_uid, video.id))
     print(video_ids)
 
-    return Response(json.dumps(video_ids), status=201, mimetype='application/json')
+    return Response(json.dumps(video_ids), status=200, mimetype='application/json')
 
 
 @app.route("/top-channels", methods=["POST"])
@@ -231,7 +232,7 @@ def getTopChannel():
             channel_ids.remove(i)
         print(i)
         print("\n")
-    return Response(json.dumps(channel_ids), status=201, mimetype='application/json')
+    return Response(json.dumps(channel_ids), status=200, mimetype='application/json')
 
 @app.route("/remove-subscription", methods=["POST"])
 def removeSubscription():
@@ -248,6 +249,7 @@ def removeSubscription():
         "subscriber_count": int(current_user["subscriber_count"]) - 1
     })
     db.collection("users").document(user_uid).collection("subscriptions").document(channel_uid).delete()
+    return Response("OK", status=200, mimetype='application/json')
 
 @app.route("/video-meta", methods=["POST"])
 def getMetaData():
@@ -277,7 +279,11 @@ def getSubscribedChannels():
     
     for channel in channels:
         channel_uids.append(channel.id)
-    return channel_uids
+    return Response(json.dumps(channel_uids), status=200, mimetype='application/json')
+
+
+
+
 
 ### FILEDS
 '''

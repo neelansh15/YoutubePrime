@@ -1,6 +1,7 @@
 <template>
 	<v-container class="mt-5">
-		<v-btn @click="getVideos">TESt</v-btn>
+		<v-btn @click="getVideos">Get videos</v-btn>
+		<v-btn to="/channel/aturing">Channel</v-btn>
 		<v-card color="deep-purple" class="pa-2">
 			<v-card-text class="white--text mt-1">
 				<h1>Welcome back, mneelansh! 🎉</h1>
