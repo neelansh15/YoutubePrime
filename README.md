@@ -16,4 +16,6 @@ logout
 - [ ] download video auth
 - [x] subscribed channels
 - [ ] Log out route
+- [ ] app.before.route to check if token expired in main.py
+- [ ] Check if token expired on each page and before every action
 - [x] remove (manage) subscription in account page
