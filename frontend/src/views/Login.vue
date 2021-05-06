@@ -66,6 +66,7 @@ export default {
 					const token = res.data
 					this.$store.commit('setToken', token)
 					console.log(token)
+					this.$router.push({ name: 'Dashboard' })
 				})
 		},
 	},

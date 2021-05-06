@@ -11,7 +11,7 @@ export default new Vuex.Store({
 		APIData: '',
 	},
 	mutations: {
-		setToken(state, payload){
+		setToken(state, payload) {
 			state.accessToken = payload
 		},
 		destroyToken(state) {
