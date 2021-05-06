@@ -9,6 +9,8 @@ import Register from '../views/Register.vue'
 import PlayOwner from '../views/PlayOwner.vue'
 import Video from '../views/Video.vue'
 import Upload from '../views/Upload.vue'
+import Channel from '../views/Channel.vue'
+import ChannelOwner from '../views/ChannelOwner.vue'
 
 Vue.use(VueRouter)
 
@@ -66,6 +68,21 @@ const routes = [
 		meta: {
 			requiresLogin: true,
 		},
+	},
+	{
+		path: '/channel',
+		name: 'Channel',
+		component: ChannelOwner,
+		children: [
+			{
+				path: '/channel/:id',
+				name: 'Channel',
+				component: Channel,
+			},
+		],
+		// meta: {
+		// 	requiresLogin: true,
+		// },
 	},
 	{
 		path: '/account',

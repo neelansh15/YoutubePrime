@@ -1,13 +1,17 @@
 <template>
 	<div>
-		<v-card>
+		<v-container class="mt-5">
+			<h1>channel name {{ $route.params.id }}</h1>
+			<v-btn @click="subscribe">
+				<v-icon>{{ this.icon }}</v-icon>
+			</v-btn>
+			<v-btn @click="checkStatus">Check</v-btn>
+		</v-container>
+		<!-- <v-card>
+			<v-row> channel name {{ $route.params.id }} </v-row>
 			<v-row>
-				channel name
 			</v-row>
-			<v-row>
-				<v-btn @click="subscribe"></v-btn>
-			</v-row>
-		</v-card>
+		</v-card> -->
 	</div>
 </template>
 
@@ -16,21 +20,49 @@ import axios from 'axios'
 export default {
 	data() {
 		return {
-			channel_id: '',
+			channel_id: this.$route.params.id,
+			icon: 'mdi-plus',
 		}
 	},
 	methods: {
-		subscribe() {
-			let token = 'GETTOKENFROMVUEX'
-			let channel_id = 'GETCHANNELIDFROMVUEX'
+		checkStatus() {
 			axios
-				.post('http://127.0.0.1:5000/subscribe', {
-					idToken: token,
-					channel_uid: channel_id,
+				.post('http://127.0.0.1:5000/getAllSubsriptions', {
+					idToken: this.$store.state.accessToken,
 				})
 				.then(res => {
-					console.log(res.data)
+					let channels = res.data
+					console.log(channels)
+					console.log(this.channel_id)
+					if (channels.includes(this.channel_id)) {
+						this.icon = 'mdi-check'
+					} else {
+						this.icon = 'mdi-plus'
+					}
 				})
+		},
+		async subscribe() {
+			this.checkStatus()
+			if (this.icon == 'mdi-plus') {
+				await axios
+					.post('http://127.0.0.1:5000/subscribe', {
+						idToken: this.$store.state.accessToken,
+						channel_uid: this.$route.params.id,
+					})
+					.then(res => {
+						console.log(res.data)
+					})
+			} else {
+				await axios
+					.post('http://127.0.0.1:5000/remove-subscription', {
+						idToken: this.$store.state.accessToken,
+						channel_uid: this.$route.params.id,
+					})
+					.then(res => {
+						console.log(res.data)
+					})
+			}
+			this.checkStatus()
 		},
 	},
 }
