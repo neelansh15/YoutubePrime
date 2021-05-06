@@ -112,6 +112,13 @@ export default {
 							})
 					})
 				})
+			axios
+				.post('http://127.0.0.1:5000/top-channels', {
+					idToken: this.$store.state.accessToken,
+				})
+				.then(res => {
+					console.log(res.data)
+				})
 		},
 	},
 }
