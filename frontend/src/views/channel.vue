@@ -10,7 +10,7 @@
 
 			<v-btn
 				v-if="videos"
-				:to="'/channel/' + $route.params.id + '/' + videos[0][1]"
+				:to="'/channel/jAYkuM3a3Pcfqk0vgapsNeOyXK52/' + videos[0][1]"
 				>First vid</v-btn
 			>
 		</v-container>
