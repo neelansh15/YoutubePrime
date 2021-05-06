@@ -101,6 +101,10 @@ def uploadVideo():
     print(file.filename)
     print(file_extension)
 
+    thumbnail = request.files["thumbnail"]
+    thumbnail_extension = os.path.splitext(thumbnail.filename)[1]
+    print(thumbnail.filename)
+    
     
     data = request.form
     token = data["idToken"]
@@ -108,18 +112,32 @@ def uploadVideo():
     user_uid = decoded_token['uid']
 
     doc = dict(request.form)
+    doc.pop("idToken") #Don't need to return this from the form
     doc["type"] = file_extension
+    doc["thumbnail_type"] = thumbnail_extension
 
-    created_doc = db.collection("users").doc(user_uid).collection("videos").add(doc)
-    videoid = created_doc["uid"] #Maybe this is how it is returned? Need to look at this
+    created_doc_tuple = db.collection("users").document(user_uid).collection("videos").add(doc)
+    print("Returned Doc: ")
+    print(created_doc_tuple)
 
-    #Now update the videos doc with the new uid of the video
-    # db.collection("users").doc(user_uid).collection("videos").where()
+    created_doc_ref = created_doc_tuple[1]
 
+    video_id = created_doc_ref.id
+    print(video_id)
+
+    created_doc_ref.update({
+        "uid": video_id
+    })
+
+    #Upload to gcloud bucket
     bucket = storage.bucket()
-    blob = bucket.blob(f"videos/${videoid}.${file_extension}")
+    blob = bucket.blob(f"videos/{video_id}{file_extension}")
     blob.upload_from_string(file.read())
-    return 'Successful'
+
+    blob_thumbnail = bucket.blob(f"images/{video_id}{thumbnail_extension}")
+    blob_thumbnail.upload_from_string(thumbnail.read())
+
+    return 'Successful ' + video_id
 
 @app.route("/download-video", methods=['POST'])
 def downloadVideo():
