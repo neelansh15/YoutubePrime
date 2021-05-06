@@ -8,7 +8,11 @@
 			<v-btn @click="checkStatus">Check</v-btn>
 			<v-btn @click="getVideos">getVideo</v-btn>
 
-			<v-btn v-if="videos" :to="'/channel/' + $route.params.id + '/' + videos[0][1]">First vid</v-btn>
+			<v-btn
+				v-if="videos"
+				:to="'/channel/' + $route.params.id + '/' + videos[0][1]"
+				>First vid</v-btn
+			>
 		</v-container>
 		<!-- <v-card>
 			<v-row> channel name {{ $route.params.id }} </v-row>
@@ -25,7 +29,7 @@ export default {
 		return {
 			channel_id: this.$route.params.id,
 			icon: 'mdi-plus',
-			videos: null
+			videos: null,
 		}
 	},
 	methods: {
@@ -78,7 +82,18 @@ export default {
 					})
 					.then(res => {
 						this.videos = res.data
-						console.log(res.data)
+						console.log(this.videos)
+						this.videos.forEach(element => {
+							console.log(element)
+							axios
+								.post('http://127.0.0.1:5000/video-meta', {
+									channel_id: element[0],
+									video_id: element[1],
+								})
+								.then(res => {
+									console.log(res.data)
+								})
+						})
 					})
 			}
 		},

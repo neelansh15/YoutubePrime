@@ -83,8 +83,8 @@ export default {
 				.post('http://127.0.0.1:5000/register', {
 					email: inputEmail,
 					password: inputPassword,
-					displayName: inputDisplayName,
-					photoUrl: inputPhotoUrl,
+					display_name: inputDisplayName,
+					photo_url: inputPhotoUrl,
 				})
 				.then(res => {
 					const token = res.data

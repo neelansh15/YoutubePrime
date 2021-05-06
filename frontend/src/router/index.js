@@ -79,18 +79,18 @@ const routes = [
 				path: '/channel/:id',
 				name: 'ChannelViewsOwner',
 				component: ChannelViewsOwner,
-				children:[
+				children: [
 					{
 						path: '/',
 						name: 'Channel',
-						component: Channel
+						component: Channel,
 					},
 					{
 						path: '/channel/:id/:videoid',
 						name: 'ChannelVideo',
-						component: Play
-					}
-				]
+						component: Play,
+					},
+				],
 			},
 		],
 		// meta: {
