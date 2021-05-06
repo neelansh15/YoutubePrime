@@ -139,29 +139,46 @@ def uploadVideo():
 
     return 'Successful ' + video_id
 
-@app.route("/download-video", methods=['POST'])
-def downloadVideo():
+@app.route("/getVideo", methods=['POST'])
+def getVideo():
     '''
-    :Params: video_id, channel_id
+    :Params: idToken, video_id, channel_id
     '''
 
-    # TODO: AUTHENTICATION
+    # TODO: AUTHENTICATION to see if user can access this video i.e. user is subscribed to this channel
     data = request.get_json()
+
+    token = data['idToken']
+    decoded_token = auth.verify_id_token(token)
+    user_uid = decoded_token['uid']
+    
+    channel_uid = data['channel_id']
+    print(user_uid)
+    print(channel_uid)
+    channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
+    
+    channel_uids = []
+    for channel in channels:
+        channel_uids.append(channel.id)
+    
+    if channel_uid not in channel_uids:
+        return "Unauthorized"
+    #END Authentication
+
     video_id = data['video_id']
-    channel_id = data['channel_id']
-    meta = db.collection("users").document(channel_id).collection("videos").document(video_id).get()
+    meta = db.collection("users").document(channel_uid).collection("videos").document(video_id).get()
     meta = meta.to_dict()
     extension = meta["type"]
 
     bucket = storage.bucket()
-    blob = bucket.blob(f"videos/{video_id}.{extension}")
+    blob = bucket.blob(f"videos/{video_id}{extension}")
     
     expiration_time = datetime.now(tz=gettz('Asia/Kolkata')) + timedelta(minutes=1)
     print(expiration_time)
 
     url = blob.generate_signed_url(expiration=expiration_time, version='v4')
     
-    return f"<video src='{url}' width=500 height=500 autoplay></video><input value={url} disabled />"
+    return url
 
 @app.route("/subscribe", methods=['POST'])
 def subscribe():
