@@ -180,7 +180,7 @@ def getVideo():
     bucket = storage.bucket()
     blob = bucket.blob(f"videos/{video_id}{extension}")    
 
-    expiration_time = datetime.now(tz=gettz('Asia/Kolkata')) + timedelta(minutes=1)
+    expiration_time = datetime.now(tz=gettz('Asia/Kolkata')) + timedelta(minutes=60)
     print(expiration_time)
 
     url = blob.generate_signed_url(expiration=expiration_time, version='v4')

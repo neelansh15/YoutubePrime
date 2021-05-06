@@ -10,7 +10,7 @@
 
 			<v-btn
 				v-if="videos"
-				:to="'/channel/jAYkuM3a3Pcfqk0vgapsNeOyXK52/' + videos[0][1]"
+				to="/channel/jAYkuM3a3Pcfqk0vgapsNeOyXK52/FSAvG1WkiUWC2EB53JZo"
 				>First vid</v-btn
 			>
 		</v-container>
