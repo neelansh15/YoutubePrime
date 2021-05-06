@@ -18,4 +18,5 @@ logout
 - [ ] Log out route
 - [ ] app.before.route to check if token expired in main.py
 - [ ] Check if token expired on each page and before every action
+- [ ] the state store part and router push is left on register
 - [x] remove (manage) subscription in account page
