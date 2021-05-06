@@ -10,6 +10,7 @@ import PlayOwner from '../views/PlayOwner.vue'
 import Video from '../views/Video.vue'
 import Upload from '../views/Upload.vue'
 import Channel from '../views/Channel.vue'
+import ChannelViewsOwner from '../views/ChannelViewsOwner.vue'
 import ChannelOwner from '../views/ChannelOwner.vue'
 
 Vue.use(VueRouter)
@@ -76,8 +77,20 @@ const routes = [
 		children: [
 			{
 				path: '/channel/:id',
-				name: 'Channel',
-				component: Channel,
+				name: 'ChannelViewsOwner',
+				component: ChannelViewsOwner,
+				children:[
+					{
+						path: '/',
+						name: 'Channel',
+						component: Channel
+					},
+					{
+						path: '/channel/:id/:videoid',
+						name: 'ChannelVideo',
+						component: Play
+					}
+				]
 			},
 		],
 		// meta: {

@@ -2,6 +2,7 @@
 	<div>
 		<h1>Play</h1>
 		<h2>{{ $route.params.id }}</h2>
+		<h2>{{ $route.params.videoid }}</h2>
 		<h3>{{ $store.state.accessToken }}</h3>
 	</div>
 </template>
