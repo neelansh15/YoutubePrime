@@ -171,7 +171,7 @@ def subscribe():
     user_uid = decoded_token['uid']
     print(user_uid)
     
-    channel_uid = data['channel_uid']
+    channel_uid = data['channel_id']
     channel_doc = {
         "uuid": channel_uid
     }
@@ -260,7 +260,7 @@ def removeSubscription():
     user_uid = decoded_token['uid']
     print(user_uid)
     
-    channel_uid = data['channel_uid']
+    channel_uid = data['channel_id']
     current_user = db.collection("users").document(channel_uid).get().to_dict()
     
     db.collection("users").document(channel_uid).update({
@@ -299,8 +299,15 @@ def getSubscribedChannels():
         channel_uids.append(channel.id)
     return Response(json.dumps(channel_uids), status=200, mimetype='application/json')
 
-
-
+@app.route("/getAllChannelVideos", methods=["POST"])
+def getVideos():
+    data = request.get_json()
+    channel_id = data['channel_id']
+    video_ids = []
+    videos = db.collection("users").document(channel_id).collection("videos").stream()
+    for video in videos:
+        video_ids.append((channel_id, video.id))
+    return Response(json.dumps(video_ids), status=200, mimetype='application/json')
 
 
 ### FILEDS

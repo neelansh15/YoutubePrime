@@ -6,6 +6,7 @@
 				<v-icon>{{ this.icon }}</v-icon>
 			</v-btn>
 			<v-btn @click="checkStatus">Check</v-btn>
+			<v-btn @click="getVideos">getVideo</v-btn>
 		</v-container>
 		<!-- <v-card>
 			<v-row> channel name {{ $route.params.id }} </v-row>
@@ -47,7 +48,7 @@ export default {
 				await axios
 					.post('http://127.0.0.1:5000/subscribe', {
 						idToken: this.$store.state.accessToken,
-						channel_uid: this.$route.params.id,
+						channel_id: this.$route.params.id,
 					})
 					.then(res => {
 						console.log(res.data)
@@ -56,13 +57,26 @@ export default {
 				await axios
 					.post('http://127.0.0.1:5000/remove-subscription', {
 						idToken: this.$store.state.accessToken,
-						channel_uid: this.$route.params.id,
+						channel_id: this.$route.params.id,
 					})
 					.then(res => {
 						console.log(res.data)
 					})
 			}
 			this.checkStatus()
+		},
+		getVideos() {
+			if (this.icon == 'mdi-plus') {
+				console.log('Not subscribed')
+			} else {
+				axios
+					.post('http://127.0.0.1:5000/getAllChannelVideos', {
+						channel_id: this.$route.params.id,
+					})
+					.then(res => {
+						console.log(res.data)
+					})
+			}
 		},
 	},
 }
