@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import { getAPI } from '../axios-api'
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+	plugins: [createPersistedState()],
 	state: {
+		baseURL: 'http://localhost:5000',
 		accessToken: null,
 		refreshToken: null,
 		APIData: '',

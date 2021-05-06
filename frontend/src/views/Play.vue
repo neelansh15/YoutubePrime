@@ -8,7 +8,18 @@
 </template>
 
 <script>
-export default {}
+import axios from 'axios'
+
+export default {
+	name: 'Play',
+	mounted(){
+		axios.post("http://localhost:5000/getVideo", {
+			idToken: this.$store.state.accessToken,
+			channel_id: this.$route.params.id,
+			video_id: this.$route.params.videoid
+		})
+	}
+}
 </script>
 
 <style></style>
