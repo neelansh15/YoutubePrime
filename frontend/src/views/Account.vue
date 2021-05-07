@@ -1,6 +1,16 @@
 <template>
 	<v-container>
-		<h1 class="mt-3">Account</h1>
+		<div class="mx-5 mt-5">
+			<div class="d-flex align-center">
+				<v-avatar size="90">
+					<v-img :src="user.photo_url" class="flex-grow-0" />
+				</v-avatar>
+				<div class="mt-4 ml-4">
+					<h2 class="text-h4">{{ user.display_name }}</h2>
+					<h3 class="text-overline">{{ user.email }}</h3>
+				</div>
+			</div>
+		</div>
 		<div v-if="vids.length !== 0" class="mt-2">
 			<h1>Your videos</h1>
 			<v-row class="mt-5">
@@ -55,11 +65,13 @@ export default {
 			videos: [],
 			channels: [],
 			channelsData: [],
+			user: {},
 		}
 	},
 	mounted() {
 		this.getVideos()
 		this.getSubscriptions()
+		this.getUserData()
 	},
 	methods: {
 		getVideos() {
@@ -119,6 +131,16 @@ export default {
 					console.log(res.data)
 				})
 			this.getVideos()
+		},
+		getUserData() {
+			axios
+				.post('http://127.0.0.1:5000/user', {
+					idToken: this.$store.state.accessToken,
+				})
+				.then(res => {
+					this.user = res.data
+					console.log(this.user)
+				})
 		},
 	},
 }

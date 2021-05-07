@@ -2,21 +2,17 @@
 	<div>
 		<v-container class="mt-5">
 			<h1>{{ this.channel_name }}</h1>
+			<p>{{ this.subscribers }} subscribers</p>
 
 			<v-btn
 				:color="this.icon == 'mdi-plus' ? 'purple darken-3' : ''"
 				@click="subscribe"
 			>
-				<v-icon>{{ this.icon }} </v-icon>
+				<v-icon class="mr-2">{{ this.icon }}</v-icon>
 				{{ this.buttonText }}
 			</v-btn>
 
-			<v-btn
-				v-if="videos"
-				to="/channel/jAYkuM3a3Pcfqk0vgapsNeOyXK52/FSAvG1WkiUWC2EB53JZo"
-				>First vid</v-btn
-			>
-			<div class="mt-2">
+			<div v-if="vids.length !== 0" class="mt-2">
 				<h1>Channel videos</h1>
 				<v-row class="mt-5">
 					<v-col cols="12" md="4" v-for="vid in vids" :key="vid.id">
@@ -43,6 +39,7 @@ export default {
 			channel_name: '',
 			vids: [],
 			buttonText: ' Subscribe',
+			subscribers: 0,
 		}
 	},
 	async mounted() {
@@ -69,6 +66,7 @@ export default {
 			})
 			.then(res => {
 				this.channel_name = res.data.display_name
+				this.subscribers = res.data.subscriber_count
 			})
 		this.getVideos()
 	},
