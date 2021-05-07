@@ -387,9 +387,9 @@ def getVideos():
 def deleteVideo():
     data = request.get_json()
     video_id = data['video_id']
-    # token = data['idToken']
-    # decoded_token = auth.verify_id_token(token)
-    user_uid = data['user_id']  #decoded_token['uid']
+    token = data['idToken']
+    decoded_token = auth.verify_id_token(token)
+    user_uid = decoded_token['uid']
     print(video_id, user_uid)
     doc_ref = db.collection("users").document(user_uid).collection("videos").document(video_id).get()
     print(doc_ref.to_dict())
@@ -400,8 +400,9 @@ def deleteVideo():
         bucket = storage.bucket()
         blob = bucket.blob('images/' + video_id + imageExtension)
         blob.delete()
-        blob = bucket.blob('videos/' + video_id+ videoExtension)
-        blob.delete()
+        bucket2 = storage.bucket()
+        blob2 = bucket2.blob('videos/' + video_id+ videoExtension)
+        blob2.delete()
         db.collection("users").document(user_uid).collection("videos").document(video_id).delete()
         return Response("OK", status=200, mimetype='application/json')
     else:
