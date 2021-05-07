@@ -222,8 +222,9 @@ def getUserDetails():
     userDocData = userDoc.to_dict()
     #TODO: ALso fetch and return videos
     return json.dumps(userDocData)
+
 @app.route("/userWithToken", methods=["POST"])
-def getUserDetails():
+def getUserDetailsUsingToken():
     #TODO: Auth token for security, or add firebase rule to accept an auth header
     data = request.get_json()
     token = data['idToken']
