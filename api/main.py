@@ -14,6 +14,10 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 CORS(app, resources={r"/login": {"origins": "http://localhost:8080"}})
 
+# WARNING; WORKAROUND to prevent timeout for files > 6 MB on 800 kbps upload link.
+# storage.blob._DEFAULT_CHUNKSIZE = 5 * 1024* 1024  # 5 MB
+# storage.blob._MAX_MULTIPART_SIZE = 5 * 1024* 1024  # 5 MB
+
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
