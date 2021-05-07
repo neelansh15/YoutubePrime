@@ -30,21 +30,6 @@ const routes = [
 		},
 	},
 	{
-		path: '/play',
-		name: 'Play',
-		component: PlayOwner,
-		children: [
-			{
-				path: '/play/:id',
-				name: 'Play',
-				component: Play,
-			},
-		],
-		meta: {
-			requiresLogin: true,
-		},
-	},
-	{
 		path: '/login',
 		name: 'Login',
 		component: Login,
@@ -72,7 +57,7 @@ const routes = [
 	},
 	{
 		path: '/channel',
-		name: 'Channel',
+		name: 'ChannelOwner',
 		component: ChannelOwner,
 		children: [
 			{
