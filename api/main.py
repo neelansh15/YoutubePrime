@@ -4,6 +4,7 @@ import json
 import asyncio
 from datetime import datetime, timedelta
 from dateutil.tz import gettz
+import jsonify
 
 from flask import Flask, request, Response
 from flask_cors import CORS, cross_origin
@@ -91,9 +92,9 @@ def register():
         if(isValid(user['password'])):
             new_user = pyreauth.create_user_with_email_and_password(user["email"], user["password"])
         else:
-            return Response("password invlaid", status=400, mimetype='application/json')
+            return Response("password invalid", status=400, mimetype='application/json')
     else:
-        return Response("email invlaid", status=400, mimetype='application/json')
+        return Response("email invalid", status=400, mimetype='application/json')
     
     db.collection("users").document(new_user["localId"]).set({
         "uid": new_user["localId"],
@@ -113,15 +114,14 @@ def login():
     data = request.get_json(force=True)
     email = data["email"]
     password = data["password"]
-    
-    #TODO: Regex to check password like OSTPL Exp 2 here
 
-    user = pyreauth.sign_in_with_email_and_password(email, password)
-    if (user['idToken']):
-        return Response(user['idToken'], status=201, mimetype='application/json')
+    try:
+        user = pyreauth.sign_in_with_email_and_password(email, password)
+    except:
+        return Response("INVALID CRED", status=400, mimetype='application/json')
 
-    else:
-        return Response(user, status=404, mimetype='application/json')
+    return Response(user['idToken'], status=201, mimetype='application/json')
+
 
 loop = asyncio.get_event_loop()
 @app.route("/upload", methods=['POST'])

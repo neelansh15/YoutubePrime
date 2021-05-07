@@ -12,13 +12,11 @@ logout
 
 - [x] single video route (only metadata)
 - [x] single video route (metadata + generated url)
-- [ ] upload video (storage + firestore)
-- [ ] download video auth
+- [x] upload video (storage + firestore)
+- [x] download video auth
 - [x] subscribed channels
 
-- [ ] app.before.route to check if token expired in main.py
-- [ ] Check if token expired on each page and before every action
-- [ ] the state store part and router push is left on register
+- [x] the state store part and router push is left on register
 - [x] remove (manage) subscription in account page
 
 TODO
@@ -26,8 +24,11 @@ TODO
 - [x] Dashboard thumnails and top channels
 - [x] Channel thumbnails for videos
 - [x] Channel check is subscribed
-- [ ] Video player
+- [x] Video player
 - [x] Accounts page (manage videos)
-- [ ] Regex in register
-- [ ] Search channels
+- [x] Regex in register
 - [x] Dashboard username
+
+- [ ] Search channels
+- [ ] app.before.route to check if token expired in main.py
+- [ ] Check if token expired on each page and before every action
