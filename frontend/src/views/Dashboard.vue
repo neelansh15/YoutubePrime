@@ -37,7 +37,7 @@
 			<h1>Recommended channels</h1>
 			<v-row class="mt-5">
 				<v-col cols="12" md="4" v-for="channel in topChannels" :key="channel.id">
-					<v-card :to="'/channel/' + channel.id">
+					<v-card :to="'/channel/' + channel.uid">
 						<v-img :aspect-ratio="16 / 9" :src="channel.photo_url" />
 						<v-card-title>{{ channel.display_name }}</v-card-title>
 						<!-- <v-card-subtitle>{{ channel.description }}</v-card-subtitle> -->
@@ -131,15 +131,16 @@ export default {
 					idToken: this.$store.state.accessToken,
 				})
 				.then(res => {
-					this.topChannels = res.data
-					this.topChannels.forEach(element => {
+					let channels = res.data
+					channels.forEach(element => {
 						console.log(element)
 						axios
 							.post('http://127.0.0.1:5000/user', {
 								user_id: element,
 							})
 							.then(res => {
-								console.log(res)
+								this.topChannels.push(res.data)
+								console.log(res.data)
 							})
 					})
 					console.log(this.topChannels)
