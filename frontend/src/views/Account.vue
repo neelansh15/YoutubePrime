@@ -47,6 +47,7 @@ export default {
 	},
 	methods: {
 		getVideos() {
+			this.vids = []
 			axios
 				.post('http://127.0.0.1:5000/getAllChannelVideos', {
 					channel_id_token: this.$store.state.accessToken,
@@ -68,6 +69,7 @@ export default {
 				})
 		},
 		getSubscriptions() {
+			this.channelsData = []
 			axios
 				.post('http://127.0.0.1:5000/getAllSubsriptions', {
 					idToken: this.$store.state.accessToken,
