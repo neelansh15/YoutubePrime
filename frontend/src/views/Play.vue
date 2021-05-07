@@ -4,8 +4,9 @@
 		<h2>{{ $route.params.id }}</h2>
 		<h2>{{ $route.params.videoid }}</h2>
 		<h3>{{ $store.state.accessToken }}</h3>
-
-		<video v-if="video_url" :src="video_url" :type="'video/' + video_type" controls />
+		<v-img :aspect-ratio="16/9" width="854" :src="thumbnail_url" />
+		<video v-if="video_url" :src="video_url" :type="'video/' + video_type" controls width="854" height="480" />
+	
 	</div>
 </template>
 
@@ -15,7 +16,9 @@ import axios from 'axios'
 export default {
 	name: 'Play',
 	data: () => ({
-		video_url: null
+		video_url: null,
+		video_type: null,
+		thumbnail_url: null
 	}),
 	mounted(){
 		axios.post("http://localhost:5000/getVideo", {
@@ -31,6 +34,7 @@ export default {
 			else{
 				this.video_url = res.data[0]
 				this.video_type = res.data[1].type
+				this.thumbnail_url = res.data[1].thumbnail_url
 			}
 		})
 	}
