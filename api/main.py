@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import asyncio
 from datetime import datetime, timedelta
@@ -48,6 +49,28 @@ initialize_app(cred, {
     "storageBucket": "prime-43c05.appspot.com",
 })
 db = firestore.client()
+pattern1 = re.compile("[a-z]")
+pattern2 = re.compile("[A-Z]")
+def isValid(p):
+    checks = [0, 0, 0, 0, 0, 0]
+    if len(p) >= 8:
+        checks[4] = 1
+    if len(p) <= 15:
+        checks[5] = 1
+
+    for letter in p:
+        if pattern1.fullmatch(letter) is not None:
+            checks[0] = 1
+        if letter.isnumeric():
+            checks[1] = 1
+        if pattern2.fullmatch(letter) is not None:
+            checks[2] = 1
+        if letter.isalnum() is False:
+            checks[3] = 1
+    if 0 in checks:
+        return False
+    else:
+        return True
 
 @app.route("/")
 def hello():
@@ -63,10 +86,14 @@ def register():
         "display_name": user_json['display_name'],
         "photo_url": user_json['photo_url'],
     }
-
-    new_user = pyreauth.create_user_with_email_and_password(user["email"], user["password"])
-
-    print(user["password"])
+    emailRegex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
+    if re.search(emailRegex, user['email']):
+        if(isValid(user['password'])):
+            new_user = pyreauth.create_user_with_email_and_password(user["email"], user["password"])
+        else:
+            return Response("password invlaid", status=400, mimetype='application/json')
+    else:
+        return Response("email invlaid", status=400, mimetype='application/json')
     
     db.collection("users").document(new_user["localId"]).set({
         "uid": new_user["localId"],
@@ -96,9 +123,10 @@ def login():
     else:
         return Response(user, status=404, mimetype='application/json')
 
-loop = asyncio.get_event_loop()
+
 @app.route("/upload", methods=['POST'])
 def uploadVideo():
+    loop = asyncio.get_event_loop()
     if 'myfile' not in request.files:
         return "Error: No file part"
     if 'idToken' not in request.form:
@@ -149,12 +177,18 @@ def uploadVideo():
     #Upload to gcloud bucket
     # bucket = storage.bucket()
     blob = bucket.blob(f"videos/{video_id}{file_extension}")
+    print("BEFORE TRY")
     try:
+        print(" TRY")
         loop.run_until_complete(blob.upload_from_string(file.read()))
     except:
         return "Error while uploading video to cloud"
     finally:
+        print("Finally TRY")
         loop.close()
+        print("TEST PRINT")
+        return 'Successful ' + video_id
+    print("After TRY")
 
     return 'Successful ' + video_id
 
