@@ -8,10 +8,19 @@
 			<h1>Your videos</h1>
 			<v-row class="mt-5">
 				<v-col cols="12" md="4" v-for="vid in vids" :key="vid.id">
-					<v-card :to="'/channel/' + vid.channel_id + '/' + vid.uid">
-						<v-img :aspect-ratio="16 / 9" :src="vid.thumbnail_url" />
-						<v-card-title>{{ vid.title }}</v-card-title>
-						<v-card-subtitle>{{ vid.description }}</v-card-subtitle>
+					<v-card>
+						<v-img
+							:to="'/channel/' + vid.channel_id + '/' + vid.uid"
+							:aspect-ratio="16 / 9"
+							:src="vid.thumbnail_url"
+						/>
+						<v-card-title :to="'/channel/' + vid.channel_id + '/' + vid.uid">{{
+							vid.title
+						}}</v-card-title>
+						<v-card-subtitle :to="'/channel/' + vid.channel_id + '/' + vid.uid">{{
+							vid.description
+						}}</v-card-subtitle>
+						<v-btn v-on:click="deleteVideo(vid.uid)">Delete</v-btn>
 					</v-card>
 				</v-col>
 			</v-row>
@@ -96,6 +105,17 @@ export default {
 		logout() {
 			this.$store.commit('destroyToken')
 			this.$router.push({ name: 'Login' })
+		},
+		async deleteVideo(inputVideoId) {
+			await axios
+				.post('http://127.0.0.1:5000/delete-video', {
+					video_id: inputVideoId,
+					idToken: this.$store.state.accessToken,
+				})
+				.then(res => {
+					console.log(res.data)
+				})
+			this.getVideos()
 		},
 	},
 }
