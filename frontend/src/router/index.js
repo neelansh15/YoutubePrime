@@ -8,7 +8,7 @@ import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import Video from '../views/Video.vue'
 import Upload from '../views/Upload.vue'
-import Channel from '../views/Channel.vue'
+import Channel from '../views/channel.vue'
 import ChannelViewsOwner from '../views/ChannelViewsOwner.vue'
 import ChannelOwner from '../views/ChannelOwner.vue'
 

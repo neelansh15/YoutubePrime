@@ -8,14 +8,14 @@
         name="myfile"
         v-model="myfile"
         accept="video/*"
-		show-size
+        show-size
       ></v-file-input>
       Thumbnail:
       <v-file-input
         name="thumbnail"
         v-model="thumbnail"
         accept="image/*"
-		show-size
+        show-size
       ></v-file-input>
       <v-text-field :counter="50" label="Title" v-model="title"></v-text-field>
       <v-textarea
@@ -23,20 +23,17 @@
         :counter="200"
         v-model="description"
       ></v-textarea>
-      <v-btn class="primary">Upload</v-btn>
+      <v-btn type="submit" class="primary">Upload</v-btn>
       <!-- <v-btn class="secondary">Cancel</v-btn> -->
     </v-form>
   </v-container>
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 
 export default {
   name: "Upload",
-  components: {
-    // dropzone,
-  },
   data: () => ({
     myfile: null,
     thumbnail: null,
@@ -44,27 +41,24 @@ export default {
     description: "",
   }),
   methods: {
-    upload(e) {
-      console.log(e);
-
+    upload() {
       let formData = new FormData();
       formData.append("myfile", this.myfile);
       formData.append("thumbnail", this.thumbnail);
       formData.append("title", this.title);
       formData.append("description", this.description);
-	console.log(formData)
-    //   axios.post(this.$store.state.baseURL + "/upload", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //     onUploadProgress: (e) => {
-    //       console.log(e);
-    //     },
-    //   });
-    },
-    onUploadProgress(e) {
-      console.log("Upload progress: ");
-      console.log(e);
+      formData.append("idToken", this.$store.state.accessToken)
+        axios.post(this.$store.state.baseURL + "/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (e) => {
+            console.log(e);
+          },
+        })
+        .then((res) => {
+          console.log(res)
+        })
     },
   },
 };
