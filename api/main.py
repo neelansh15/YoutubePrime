@@ -213,13 +213,31 @@ def subscribe():
 @app.route("/user", methods=["POST"])
 def getUserDetails():
     #TODO: Auth token for security, or add firebase rule to accept an auth header
-    reqJSON = request.get_json(force=True)
-    uid = reqJSON["uid"]
+    data = request.get_json()
+    user_uid = data['user_id']
+    # reqJSON = request.get_json(force=True)
+    # uid = reqJSON["uid"]
     # user_record = auth.get_user(uid) NOT REQUIRED
-    userDoc = db.collection("users").document(uid).get()
+    userDoc = db.collection("users").document(user_uid).get()
     userDocData = userDoc.to_dict()
     #TODO: ALso fetch and return videos
     return json.dumps(userDocData)
+@app.route("/userWithToken", methods=["POST"])
+def getUserDetails():
+    #TODO: Auth token for security, or add firebase rule to accept an auth header
+    data = request.get_json()
+    token = data['idToken']
+    decoded_token = auth.verify_id_token(token)
+    user_uid = decoded_token['uid']
+    # reqJSON = request.get_json(force=True)
+    # uid = reqJSON["uid"]
+    # user_record = auth.get_user(uid) NOT REQUIRED
+    userDoc = db.collection("users").document(user_uid).get()
+    userDocData = userDoc.to_dict()
+    #TODO: ALso fetch and return videos
+    return json.dumps(userDocData)
+
+
 
 
 # NOT TESTED

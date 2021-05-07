@@ -33,6 +33,18 @@
 				</v-col>
 			</v-row>
 		</div>
+		<div class="mt-2">
+			<h1>Recommended channels</h1>
+			<v-row class="mt-5">
+				<v-col cols="12" md="4" v-for="channel in topChannels" :key="channel.id">
+					<v-card :to="'/channel/' + channel.id">
+						<v-img :aspect-ratio="16 / 9" :src="channel.photo_url" />
+						<v-card-title>{{ channel.display_name }}</v-card-title>
+						<!-- <v-card-subtitle>{{ channel.description }}</v-card-subtitle> -->
+					</v-card>
+				</v-col>
+			</v-row>
+		</div>
 	</v-container>
 </template>
 
@@ -45,6 +57,7 @@ export default {
 	components: {},
 	data: () => ({
 		search_term: '',
+		topChannels: [],
 		vids: [
 			{
 				id: 1,
@@ -118,7 +131,18 @@ export default {
 					idToken: this.$store.state.accessToken,
 				})
 				.then(res => {
-					console.log(res.data)
+					this.topChannels = res.data
+					this.topChannels.forEach(element => {
+						console.log(element)
+						axios
+							.post('http://127.0.0.1:5000/user', {
+								user_id: element,
+							})
+							.then(res => {
+								console.log(res)
+							})
+					})
+					console.log(this.topChannels)
 				})
 		},
 	},
