@@ -165,6 +165,7 @@ def getVideo():
     channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
     
     channel_uids = []
+    channel_uids.append(user_uid)
     for channel in channels:
         channel_uids.append(channel.id)
     
