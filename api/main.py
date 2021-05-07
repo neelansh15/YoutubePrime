@@ -197,7 +197,7 @@ def subscribe():
     
     channel_uid = data['channel_id']
     channel_doc = {
-        "uuid": channel_uid
+        "uid": channel_uid
     }
     # when user subscribe add to list
     current_user = db.collection("users").document(channel_uid).get().to_dict()
@@ -341,6 +341,7 @@ def getSubscribedChannels():
     
     for channel in channels:
         channel_uids.append(channel.id)
+    # return json.dumps(channel_uids)
     return Response(json.dumps(channel_uids), status=200, mimetype='application/json')
 
 @app.route("/getAllChannelVideos", methods=["POST"])
