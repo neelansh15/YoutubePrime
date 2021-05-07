@@ -24,7 +24,7 @@
         :counter="200"
         v-model="description"
       ></v-textarea>
-      <v-btn type="submit" class="primary">Upload</v-btn>
+      <v-btn type="submit" class="primary" :disabled="progress != 0">Upload</v-btn>
       <!-- <v-btn class="secondary">Cancel</v-btn> -->
     </v-form>
   </v-container>
