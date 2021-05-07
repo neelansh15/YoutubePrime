@@ -324,6 +324,7 @@ def getMetaData():
     channel_id = data['channel_id']
     meta = db.collection("users").document(channel_id).collection("videos").document(video_id).get()
     meta = meta.to_dict()
+    meta['channel_id'] = channel_id
 
     return json.dumps(meta)
 

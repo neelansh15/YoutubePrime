@@ -25,8 +25,8 @@
 			<h1>Recommended videos</h1>
 			<v-row class="mt-5">
 				<v-col cols="12" md="4" v-for="vid in vids" :key="vid.id">
-					<v-card :to="'/play/' + vid.id">
-						<v-img :aspect-ratio="16 / 9" :src="vid.thumbnail" />
+					<v-card :to="'/channel/' + vid.channel_id + '/' + vid.uid">
+						<v-img :aspect-ratio="16 / 9" :src="vid.thumbnail_url" />
 						<v-card-title>{{ vid.title }}</v-card-title>
 						<v-card-subtitle>{{ vid.description }}</v-card-subtitle>
 					</v-card>
@@ -40,7 +40,9 @@
 					<v-card :to="'/channel/' + channel.uid">
 						<v-img :aspect-ratio="16 / 9" :src="channel.photo_url" />
 						<v-card-title>{{ channel.display_name }}</v-card-title>
-						<!-- <v-card-subtitle>{{ channel.description }}</v-card-subtitle> -->
+						<v-card-subtitle
+							>{{ channel.subscriber_count }} subscribers</v-card-subtitle
+						>
 					</v-card>
 				</v-col>
 			</v-row>
@@ -58,50 +60,7 @@ export default {
 	data: () => ({
 		search_term: '',
 		topChannels: [],
-		vids: [
-			{
-				id: 1,
-				title: 'Video title',
-				description: 'Video description',
-				thumbnail:
-					'https://images.unsplash.com/photo-1616433784544-896eaf7b9e2a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80',
-			},
-			{
-				id: 2,
-				title: 'Video title',
-				description: 'Video description',
-				thumbnail:
-					'https://images.unsplash.com/photo-1616433784544-896eaf7b9e2a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80',
-			},
-			{
-				id: 3,
-				title: 'Video title',
-				description: 'Video description',
-				thumbnail:
-					'https://images.unsplash.com/photo-1616433784544-896eaf7b9e2a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80',
-			},
-			{
-				id: 4,
-				title: 'Video title',
-				description: 'Video description',
-				thumbnail:
-					'https://images.unsplash.com/photo-1616433784544-896eaf7b9e2a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80',
-			},
-			{
-				id: 5,
-				title: 'Video title',
-				description: 'Video description',
-				thumbnail:
-					'https://images.unsplash.com/photo-1616433784544-896eaf7b9e2a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80',
-			},
-			{
-				id: 6,
-				title: 'Video title',
-				description: 'Video description',
-				thumbnail:
-					'https://images.unsplash.com/photo-1616433784544-896eaf7b9e2a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80',
-			},
-		],
+		vids: [],
 	}),
 	computed: mapState(['APIData']),
 	methods: {
@@ -122,7 +81,7 @@ export default {
 								video_id: element[1],
 							})
 							.then(res => {
-								console.log(res.data)
+								this.vids.push(res.data)
 							})
 					})
 				})
@@ -133,17 +92,14 @@ export default {
 				.then(res => {
 					let channels = res.data
 					channels.forEach(element => {
-						console.log(element)
 						axios
 							.post('http://127.0.0.1:5000/user', {
 								user_id: element,
 							})
 							.then(res => {
 								this.topChannels.push(res.data)
-								console.log(res.data)
 							})
 					})
-					console.log(this.topChannels)
 				})
 		},
 	},
