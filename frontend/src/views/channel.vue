@@ -1,11 +1,17 @@
 <template>
 	<div>
 		<v-container class="mt-5">
-			<h1>channel name {{ $route.params.id }}</h1>
-			<v-btn @click="subscribe">
-				<v-icon>{{ this.icon }}</v-icon>
-			</v-btn>
-			<v-btn @click="checkStatus">Check</v-btn>
+			<v-row no-gutters>
+				<v-col>
+					<h1>{{ this.channel_name }}</h1>
+				</v-col>
+				<v-col>
+					<v-btn @click="subscribe">
+						<v-icon>{{ this.icon }}</v-icon>
+					</v-btn>
+				</v-col>
+			</v-row>
+
 			<v-btn @click="getVideos">getVideo</v-btn>
 
 			<v-btn
@@ -14,11 +20,6 @@
 				>First vid</v-btn
 			>
 		</v-container>
-		<!-- <v-card>
-			<v-row> channel name {{ $route.params.id }} </v-row>
-			<v-row>
-			</v-row>
-		</v-card> -->
 	</div>
 </template>
 
@@ -30,27 +31,34 @@ export default {
 			channel_id: this.$route.params.id,
 			icon: 'mdi-plus',
 			videos: null,
+			channel_name: '',
 		}
 	},
+	mounted() {
+		axios
+			.post('http://127.0.0.1:5000/getAllSubsriptions', {
+				idToken: this.$store.state.accessToken,
+			})
+			.then(res => {
+				let channels = res.data
+				console.log(channels)
+				console.log(this.channel_id)
+				if (channels.includes(this.channel_id)) {
+					this.icon = 'mdi-check'
+				} else {
+					this.icon = 'mdi-plus'
+				}
+			})
+		axios
+			.post('http://127.0.0.1:5000/user', {
+				user_id: this.channel_id,
+			})
+			.then(res => {
+				this.channel_name = res.data.display_name
+			})
+	},
 	methods: {
-		checkStatus() {
-			axios
-				.post('http://127.0.0.1:5000/getAllSubsriptions', {
-					idToken: this.$store.state.accessToken,
-				})
-				.then(res => {
-					let channels = res.data
-					console.log(channels)
-					console.log(this.channel_id)
-					if (channels.includes(this.channel_id)) {
-						this.icon = 'mdi-check'
-					} else {
-						this.icon = 'mdi-plus'
-					}
-				})
-		},
 		async subscribe() {
-			this.checkStatus()
 			if (this.icon == 'mdi-plus') {
 				await axios
 					.post('http://127.0.0.1:5000/subscribe', {
@@ -60,6 +68,7 @@ export default {
 					.then(res => {
 						console.log(res.data)
 					})
+				this.icon = 'mdi-check'
 			} else {
 				await axios
 					.post('http://127.0.0.1:5000/remove-subscription', {
@@ -69,8 +78,8 @@ export default {
 					.then(res => {
 						console.log(res.data)
 					})
+				this.icon = 'mdi-plus'
 			}
-			this.checkStatus()
 		},
 		getVideos() {
 			if (this.icon == 'mdi-plus') {

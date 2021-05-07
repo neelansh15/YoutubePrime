@@ -1,7 +1,5 @@
 <template>
 	<v-container class="mt-5">
-		<v-btn @click="getVideos">Get videos</v-btn>
-		<v-btn to="/channel/aturing">Channel</v-btn>
 		<v-card color="deep-purple" class="pa-2">
 			<v-card-text class="white--text mt-1">
 				<h1>Welcome back, mneelansh! 🎉</h1>
@@ -63,45 +61,43 @@ export default {
 		vids: [],
 	}),
 	computed: mapState(['APIData']),
-	methods: {
-		getVideos() {
-			//get token and channel_id from vuex
-			let video_ids = []
+	mounted() {
+		//get token and channel_id from vuex
+		let video_ids = []
 
-			axios
-				.post('http://127.0.0.1:5000/user-subscription', {
-					idToken: this.$store.state.accessToken,
+		axios
+			.post('http://127.0.0.1:5000/user-subscription', {
+				idToken: this.$store.state.accessToken,
+			})
+			.then(res => {
+				video_ids = res.data
+				video_ids.forEach(element => {
+					axios
+						.post('http://127.0.0.1:5000/video-meta', {
+							channel_id: element[0],
+							video_id: element[1],
+						})
+						.then(res => {
+							this.vids.push(res.data)
+						})
 				})
-				.then(res => {
-					video_ids = res.data
-					video_ids.forEach(element => {
-						axios
-							.post('http://127.0.0.1:5000/video-meta', {
-								channel_id: element[0],
-								video_id: element[1],
-							})
-							.then(res => {
-								this.vids.push(res.data)
-							})
-					})
+			})
+		axios
+			.post('http://127.0.0.1:5000/top-channels', {
+				idToken: this.$store.state.accessToken,
+			})
+			.then(res => {
+				let channels = res.data
+				channels.forEach(element => {
+					axios
+						.post('http://127.0.0.1:5000/user', {
+							user_id: element,
+						})
+						.then(res => {
+							this.topChannels.push(res.data)
+						})
 				})
-			axios
-				.post('http://127.0.0.1:5000/top-channels', {
-					idToken: this.$store.state.accessToken,
-				})
-				.then(res => {
-					let channels = res.data
-					channels.forEach(element => {
-						axios
-							.post('http://127.0.0.1:5000/user', {
-								user_id: element,
-							})
-							.then(res => {
-								this.topChannels.push(res.data)
-							})
-					})
-				})
-		},
+			})
 	},
 }
 </script>
