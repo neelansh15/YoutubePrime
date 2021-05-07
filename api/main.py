@@ -219,7 +219,6 @@ def subscribe():
 
 @app.route("/user", methods=["POST"])
 def getUserDetails():
-    #TODO: Auth token for security, or add firebase rule to accept an auth header
     data = request.get_json()
     print(data)
     if 'user_id' in data:
@@ -378,6 +377,32 @@ def getVideos():
     for video in videos:
         video_ids.append((channel_id, video.id))
     return Response(json.dumps(video_ids), status=200, mimetype='application/json')
+
+@app.route("/delete-video", methods=["POST"])
+def deleteVideo():
+    data = request.get_json()
+    video_id = data['video_id']
+    # token = data['idToken']
+    # decoded_token = auth.verify_id_token(token)
+    user_uid = data['user_id']  #decoded_token['uid']
+    print(video_id, user_uid)
+    doc_ref = db.collection("users").document(user_uid).collection("videos").document(video_id).get()
+    print(doc_ref.to_dict())
+    if doc_ref.exists:
+        doc_ref = doc_ref.to_dict()
+        imageExtension = doc_ref["thumbnail_type"]
+        videoExtension  = doc_ref['type']
+        bucket = storage.bucket()
+        blob = bucket.blob('images/' + video_id + imageExtension)
+        blob.delete()
+        blob = bucket.blob('videos/' + video_id+ videoExtension)
+        blob.delete()
+        db.collection("users").document(user_uid).collection("videos").document(video_id).delete()
+        return Response("OK", status=200, mimetype='application/json')
+    else:
+        print(doc_ref.id)
+        print("!exists")
+
 
 
 ### FILEDS
