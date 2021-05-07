@@ -346,7 +346,12 @@ def getSubscribedChannels():
 @app.route("/getAllChannelVideos", methods=["POST"])
 def getVideos():
     data = request.get_json()
-    channel_id = data['channel_id']
+    if 'channel_id' in data:
+        channel_id = data['channel_id']
+    else:
+        token = data['channel_id_token']
+        decoded_token = auth.verify_id_token(token)
+        channel_id = decoded_token['uid']
     video_ids = []
     videos = db.collection("users").document(channel_id).collection("videos").stream()
     for video in videos:

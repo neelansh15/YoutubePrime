@@ -13,13 +13,14 @@ export default {
 		return {
 			name: 'Account',
 			vid: [],
+			videos: [],
 		}
 	},
 	methods: {
 		getVideos() {
 			axios
 				.post('http://127.0.0.1:5000/getAllChannelVideos', {
-					channel_id: this.$store.state.accessToken,
+					channel_id_token: this.$store.state.accessToken,
 				})
 				.then(res => {
 					this.videos = res.data
@@ -32,8 +33,7 @@ export default {
 								video_id: element[1],
 							})
 							.then(res => {
-								this.vid = res.data
-								console.log(this.vid)
+								this.vid.push(res.data)
 							})
 					})
 				})
