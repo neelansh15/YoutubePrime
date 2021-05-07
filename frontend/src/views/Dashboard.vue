@@ -40,7 +40,9 @@
 					<v-card :to="'/channel/' + channel.uid">
 						<v-img :aspect-ratio="16 / 9" :src="channel.photo_url" />
 						<v-card-title>{{ channel.display_name }}</v-card-title>
-						<!-- <v-card-subtitle>{{ channel.description }}</v-card-subtitle> -->
+						<v-card-subtitle
+							>{{ channel.subscriber_count }} subscribers</v-card-subtitle
+						>
 					</v-card>
 				</v-col>
 			</v-row>
