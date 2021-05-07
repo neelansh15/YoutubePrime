@@ -6,7 +6,6 @@ import Play from '../views/Play.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
-import PlayOwner from '../views/PlayOwner.vue'
 import Video from '../views/Video.vue'
 import Upload from '../views/Upload.vue'
 import Channel from '../views/Channel.vue'
@@ -25,21 +24,6 @@ const routes = [
 		path: '/dashboard',
 		name: 'Dashboard',
 		component: Dashboard,
-		meta: {
-			requiresLogin: true,
-		},
-	},
-	{
-		path: '/play',
-		name: 'Play',
-		component: PlayOwner,
-		children: [
-			{
-				path: '/play/:id',
-				name: 'Play',
-				component: Play,
-			},
-		],
 		meta: {
 			requiresLogin: true,
 		},
@@ -72,7 +56,7 @@ const routes = [
 	},
 	{
 		path: '/channel',
-		name: 'Channel',
+		name: 'ChannelOwner',
 		component: ChannelOwner,
 		children: [
 			{
