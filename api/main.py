@@ -167,6 +167,7 @@ def getVideo():
     channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
     
     channel_uids = []
+    channel_uids.append(user_uid)
     for channel in channels:
         channel_uids.append(channel.id)
     
@@ -303,16 +304,22 @@ def removeSubscription():
     token = data['idToken']
     decoded_token = auth.verify_id_token(token)
     user_uid = decoded_token['uid']
-    print(user_uid)
-    
+
     channel_uid = data['channel_id']
-    current_user = db.collection("users").document(channel_uid).get().to_dict()
-    
-    db.collection("users").document(channel_uid).update({
-        "subscriber_count": int(current_user["subscriber_count"]) - 1
-    })
-    db.collection("users").document(user_uid).collection("subscriptions").document(channel_uid).delete()
-    return Response("OK", status=200, mimetype='application/json')
+    channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
+    subscribed = []
+    for i in channels:
+        subscribed.append(i.id)
+    if channel_uid in subscribed:
+        current_user = db.collection("users").document(channel_uid).get().to_dict()
+        
+        db.collection("users").document(channel_uid).update({
+            "subscriber_count": int(current_user["subscriber_count"]) - 1
+        })
+        db.collection("users").document(user_uid).collection("subscriptions").document(channel_uid).delete()
+        return Response("OK", status=200, mimetype='application/json')
+    else:
+        return Response("BAD REQUEST", status=400, mimetype='application/json')
 
 @app.route("/video-meta", methods=["POST"])
 def getMetaData():
