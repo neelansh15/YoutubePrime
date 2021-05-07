@@ -19,7 +19,7 @@
 			></v-text-field>
 		</v-form>
 
-		<div class="mt-2">
+		<div v-if="vids.length !== 0" class="mt-2">
 			<h1>From your subscriptions</h1>
 			<v-row class="mt-5">
 				<v-col cols="12" md="4" v-for="vid in vids" :key="vid.id">
@@ -31,7 +31,7 @@
 				</v-col>
 			</v-row>
 		</div>
-		<div class="mt-2">
+		<div v-if="topChannels.length !== 0" class="mt-2">
 			<h1>Top channels</h1>
 			<v-row class="mt-5">
 				<v-col cols="12" md="4" v-for="channel in topChannels" :key="channel.id">
