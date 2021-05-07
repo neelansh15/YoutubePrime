@@ -1,7 +1,7 @@
 <template>
   <v-container class="mt-4">
     <h1>Upload a new video</h1>
-
+  {{ progress }}
     <v-form class="mt-5" ref="form" @submit.prevent="upload">
       Video:
       <v-file-input
@@ -39,6 +39,7 @@ export default {
     thumbnail: null,
     title: "",
     description: "",
+    progress: 0
   }),
   methods: {
     upload() {
@@ -54,6 +55,7 @@ export default {
           },
           onUploadProgress: (e) => {
             console.log(e);
+            this.progress = e.loaded / e.total
           },
         })
         .then((res) => {
