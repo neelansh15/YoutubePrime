@@ -1,7 +1,8 @@
 <template>
   <v-container class="mt-4">
-    <h1>Upload a new video</h1>
-  {{ progress }}
+    <v-alert type="success" v-if="progress == 1">Uploaded</v-alert>
+    <v-progress-linear v-show="progress != 0 && progress != 1"  :value="progress * 100"></v-progress-linear>
+    <h1 class="mt-3">Upload a new video</h1>
     <v-form class="mt-5" ref="form" @submit.prevent="upload">
       Video:
       <v-file-input
