@@ -1,18 +1,15 @@
 <template>
 	<div>
 		<v-container class="mt-5">
-			<v-row no-gutters>
-				<v-col>
-					<h1>{{ this.channel_name }}</h1>
-				</v-col>
-				<v-col>
-					<v-btn @click="subscribe">
-						<v-icon>{{ this.icon }}</v-icon>
-					</v-btn>
-				</v-col>
-			</v-row>
+			<h1>{{ this.channel_name }}</h1>
 
-			<v-btn @click="getVideos">getVideo</v-btn>
+			<v-btn
+				:color="this.icon == 'mdi-plus' ? 'purple darken-3' : ''"
+				@click="subscribe"
+			>
+				<v-icon>{{ this.icon }} </v-icon>
+				{{ this.buttonText }}
+			</v-btn>
 
 			<v-btn
 				v-if="videos"
@@ -45,6 +42,7 @@ export default {
 			videos: null,
 			channel_name: '',
 			vids: [],
+			buttonText: ' Subscribe',
 		}
 	},
 	async mounted() {
@@ -59,8 +57,10 @@ export default {
 				console.log(this.channel_id)
 				if (channels.includes(this.channel_id)) {
 					this.icon = 'mdi-check'
+					this.buttonText = ' Subscribed'
 				} else {
 					this.icon = 'mdi-plus'
+					this.buttonText = ' Subscribe'
 				}
 			})
 		await axios
@@ -84,6 +84,7 @@ export default {
 						console.log(res.data)
 					})
 				this.icon = 'mdi-check'
+				this.buttonText = ' Subscribed'
 			} else {
 				await axios
 					.post('http://127.0.0.1:5000/remove-subscription', {
@@ -94,6 +95,7 @@ export default {
 						console.log(res.data)
 					})
 				this.icon = 'mdi-plus'
+				this.buttonText = ' Subscribe'
 			}
 			this.getVideos()
 		},

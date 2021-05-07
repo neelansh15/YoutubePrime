@@ -9,18 +9,24 @@
 			<v-row class="mt-5">
 				<v-col cols="12" md="4" v-for="vid in vids" :key="vid.id">
 					<v-card>
-						<v-img
-							:to="'/channel/' + vid.channel_id + '/' + vid.uid"
-							:aspect-ratio="16 / 9"
-							:src="vid.thumbnail_url"
-						/>
-						<v-card-title :to="'/channel/' + vid.channel_id + '/' + vid.uid">{{
-							vid.title
-						}}</v-card-title>
-						<v-card-subtitle :to="'/channel/' + vid.channel_id + '/' + vid.uid">{{
-							vid.description
-						}}</v-card-subtitle>
-						<v-btn v-on:click="deleteVideo(vid.uid)">Delete</v-btn>
+						<v-img :aspect-ratio="16 / 9" :src="vid.thumbnail_url" />
+
+						<v-card-title>{{ vid.title }} </v-card-title>
+						<v-card-subtitle>
+							{{ vid.description }}
+						</v-card-subtitle>
+
+						<v-card-actions>
+							<v-btn
+								color="deep-purple darken-3"
+								:to="'/channel/' + vid.channel_id + '/' + vid.uid"
+							>
+								<v-icon>mdi-play</v-icon>
+							</v-btn>
+							<v-btn color="red darken-2" v-on:click="deleteVideo(vid.uid)">
+								<v-icon>mdi-delete</v-icon>
+							</v-btn>
+						</v-card-actions>
 					</v-card>
 				</v-col>
 			</v-row>
