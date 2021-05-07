@@ -31,40 +31,41 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 
 export default {
-  name: "Upload",
-  data: () => ({
-    myfile: null,
-    thumbnail: null,
-    title: "",
-    description: "",
-    progress: 0
-  }),
-  methods: {
-    upload() {
-      let formData = new FormData();
-      formData.append("myfile", this.myfile);
-      formData.append("thumbnail", this.thumbnail);
-      formData.append("title", this.title);
-      formData.append("description", this.description);
-      formData.append("idToken", this.$store.state.accessToken)
-        axios.post(this.$store.state.baseURL + "/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          onUploadProgress: (e) => {
-            console.log(e);
-            this.progress = e.loaded / e.total
-          },
-        })
-        .then((res) => {
-          console.log(res)
-        })
-    },
-  },
-};
+	name: 'Upload',
+	data: () => ({
+		myfile: null,
+		thumbnail: null,
+		title: '',
+		description: '',
+		progress: 0,
+	}),
+	methods: {
+		upload() {
+			let formData = new FormData()
+			formData.append('myfile', this.myfile)
+			formData.append('thumbnail', this.thumbnail)
+			formData.append('title', this.title)
+			formData.append('description', this.description)
+			formData.append('idToken', this.$store.state.accessToken)
+			axios
+				.post(this.$store.state.baseURL + '/upload', formData, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+					onUploadProgress: e => {
+						console.log(e)
+						this.progress = e.loaded / e.total
+					},
+				})
+				.then(res => {
+					console.log(res)
+				})
+		},
+	},
+}
 </script>
 
 <style></style>
