@@ -7,7 +7,7 @@
 				:color="this.icon == 'mdi-plus' ? 'purple darken-3' : ''"
 				@click="subscribe"
 			>
-				<v-icon>{{ this.icon }} </v-icon>
+				<v-icon class="mr-2">{{ this.icon }} </v-icon>
 				{{ this.buttonText }}
 			</v-btn>
 
