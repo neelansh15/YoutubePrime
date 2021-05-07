@@ -1,9 +1,6 @@
 <template>
 	<v-container>
 		<h1 class="mt-3">Account</h1>
-		<v-btn @click="getVideos">Videos</v-btn>
-		<v-btn @click="getSubscriptions">Channels</v-btn>
-		<v-btn @click="logout">Log out</v-btn>
 		<div v-if="vids.length !== 0" class="mt-2">
 			<h1>Your videos</h1>
 			<v-row class="mt-5">
