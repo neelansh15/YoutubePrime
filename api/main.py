@@ -163,7 +163,7 @@ def uploadVideo():
     bucket = storage.bucket()
 
     blob_thumbnail = bucket.blob(f"images/{video_id}{thumbnail_extension}")
-    blob_thumbnail.upload_from_string(thumbnail.read(), content_type=thumbnail_extension[1:])
+    blob_thumbnail.upload_from_string(thumbnail.read(), content_type="image/"+thumbnail_extension[1:])
     blob_thumbnail.make_public()
 
     print("THUMBNAIL PUBLIC URL: ")
@@ -181,7 +181,7 @@ def uploadVideo():
 
     try:
         print(" TRY")
-        loop.run_until_complete(blob.upload_from_string(file.read(),content_type=file_extension[1:]))
+        loop.run_until_complete(blob.upload_from_string(file.read(),content_type="video/"+file_extension[1:]))
     except:
         return "Error while uploading video to cloud"
     finally:
