@@ -6,9 +6,7 @@
       </div>
       <div v-else>
         <v-btn @click="$router.go(-1)" class="mb-3" plain>&larr; Back</v-btn>
-        <h1>{{ video_doc.title }}</h1>
-        <p>{{ video_doc.description }}</p>
-        <!-- <v-img :aspect-ratio="16/9" width="426" :src="video_doc.thumbnail_url" /> -->
+		<br />
         <video
           v-if="video_url"
           :src="video_url"
@@ -17,6 +15,10 @@
           width="854"
           height="480"
         />
+
+        <h1 class="mt-3">{{ video_doc.title }}</h1>
+        <p>{{ video_doc.description }}</p>
+        <!-- <v-img :aspect-ratio="16/9" width="426" :src="video_doc.thumbnail_url" /> -->
       </div>
     </v-fade-transition>
   </v-container>
