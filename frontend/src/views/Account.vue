@@ -4,7 +4,8 @@
 		<v-btn @click="getVideos">Videos</v-btn>
 		<v-btn @click="getSubscriptions">Channels</v-btn>
 		<v-btn @click="logout">Log out</v-btn>
-		<div class="mt-2">
+		<div v-if="vids.length !== 0" class="mt-2">
+			<h1>Your videos</h1>
 			<v-row class="mt-5">
 				<v-col cols="12" md="4" v-for="vid in vids" :key="vid.id">
 					<v-card :to="'/channel/' + vid.channel_id + '/' + vid.uid">
@@ -15,8 +16,8 @@
 				</v-col>
 			</v-row>
 		</div>
-		<div class="mt-2">
-			<h1>Top channels</h1>
+		<div v-if="channelsData.length !== 0" class="mt-2">
+			<h1>Subscribed channels</h1>
 			<v-row class="mt-5">
 				<v-col cols="12" md="4" v-for="channel in channelsData" :key="channel.id">
 					<v-card :to="'/channel/' + channel.uid">
