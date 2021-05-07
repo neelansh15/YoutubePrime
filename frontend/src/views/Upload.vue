@@ -60,11 +60,12 @@ export default {
 					},
 					onUploadProgress: e => {
 						console.log(e)
-						this.progress = e.loaded / e.total
+						this.progress = ((e.loaded / e.total) * 80) / 100
 					},
 				})
 				.then(res => {
 					console.log(res)
+					this.progress = 1
 				})
 		},
 	},
