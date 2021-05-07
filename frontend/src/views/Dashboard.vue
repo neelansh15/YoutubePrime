@@ -20,7 +20,7 @@
 		</v-form>
 
 		<div class="mt-2">
-			<h1>Recommended videos</h1>
+			<h1>From your subscriptions</h1>
 			<v-row class="mt-5">
 				<v-col cols="12" md="4" v-for="vid in vids" :key="vid.id">
 					<v-card :to="'/channel/' + vid.channel_id + '/' + vid.uid">
@@ -32,7 +32,7 @@
 			</v-row>
 		</div>
 		<div class="mt-2">
-			<h1>Recommended channels</h1>
+			<h1>Top channels</h1>
 			<v-row class="mt-5">
 				<v-col cols="12" md="4" v-for="channel in topChannels" :key="channel.id">
 					<v-card :to="'/channel/' + channel.uid">
@@ -78,6 +78,7 @@ export default {
 							video_id: element[1],
 						})
 						.then(res => {
+							console.log(res.data)
 							this.vids.push(res.data)
 						})
 				})

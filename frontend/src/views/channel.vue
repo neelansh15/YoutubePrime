@@ -19,6 +19,18 @@
 				to="/channel/jAYkuM3a3Pcfqk0vgapsNeOyXK52/FSAvG1WkiUWC2EB53JZo"
 				>First vid</v-btn
 			>
+			<div class="mt-2">
+				<h1>Channel videos</h1>
+				<v-row class="mt-5">
+					<v-col cols="12" md="4" v-for="vid in vids" :key="vid.id">
+						<v-card :to="'/channel/' + vid.channel_id + '/' + vid.uid">
+							<v-img :aspect-ratio="16 / 9" :src="vid.thumbnail_url" />
+							<v-card-title>{{ vid.title }}</v-card-title>
+							<v-card-subtitle>{{ vid.description }}</v-card-subtitle>
+						</v-card>
+					</v-col>
+				</v-row>
+			</div>
 		</v-container>
 	</div>
 </template>
@@ -32,9 +44,11 @@ export default {
 			icon: 'mdi-plus',
 			videos: null,
 			channel_name: '',
+			vids: [],
 		}
 	},
 	mounted() {
+		console.log(this.channel_id)
 		axios
 			.post('http://127.0.0.1:5000/getAllSubsriptions', {
 				idToken: this.$store.state.accessToken,
@@ -56,6 +70,7 @@ export default {
 			.then(res => {
 				this.channel_name = res.data.display_name
 			})
+		this.getVideos()
 	},
 	methods: {
 		async subscribe() {
@@ -80,10 +95,12 @@ export default {
 					})
 				this.icon = 'mdi-plus'
 			}
+			this.getVideos()
 		},
 		getVideos() {
 			if (this.icon == 'mdi-plus') {
 				console.log('Not subscribed')
+				this.vids = []
 			} else {
 				axios
 					.post('http://127.0.0.1:5000/getAllChannelVideos', {
@@ -100,7 +117,7 @@ export default {
 									video_id: element[1],
 								})
 								.then(res => {
-									console.log(res.data)
+									this.vids.push(res.data)
 								})
 						})
 					})
