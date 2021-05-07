@@ -23,10 +23,10 @@ logout
 
 TODO
 
-- [ ] Dashboard thumnails and top channels
-- [ ] Channel thumbnails for videos
-- [ ] Channel check is subscribed
+- [x] Dashboard thumnails and top channels
+- [x] Channel thumbnails for videos
+- [x] Channel check is subscribed
 - [ ] Video player
-- [ ] Accounts page (manage videos)
+- [x] Accounts page (manage videos)
 - [ ] Regex in register
 - [ ] Search channels
