@@ -47,9 +47,9 @@ export default {
 			vids: [],
 		}
 	},
-	mounted() {
+	async mounted() {
 		console.log(this.channel_id)
-		axios
+		await axios
 			.post('http://127.0.0.1:5000/getAllSubsriptions', {
 				idToken: this.$store.state.accessToken,
 			})
@@ -63,7 +63,7 @@ export default {
 					this.icon = 'mdi-plus'
 				}
 			})
-		axios
+		await axios
 			.post('http://127.0.0.1:5000/user', {
 				user_id: this.channel_id,
 			})
