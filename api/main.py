@@ -217,7 +217,14 @@ def subscribe():
 def getUserDetails():
     #TODO: Auth token for security, or add firebase rule to accept an auth header
     data = request.get_json()
-    user_uid = data['user_id']
+    print(data)
+    if 'user_id' in data:
+        user_uid = data['user_id']
+    else:
+        token = data['idToken']
+        decoded_token = auth.verify_id_token(token)
+        user_uid = decoded_token['uid']
+
     # reqJSON = request.get_json(force=True)
     # uid = reqJSON["uid"]
     # user_record = auth.get_user(uid) NOT REQUIRED

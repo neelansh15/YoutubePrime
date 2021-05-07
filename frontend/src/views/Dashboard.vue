@@ -2,7 +2,7 @@
 	<v-container class="mt-5">
 		<v-card color="deep-purple" class="pa-2">
 			<v-card-text class="white--text mt-1">
-				<h1>Welcome back, mneelansh! 🎉</h1>
+				<h1>Welcome back, {{ this.username }}! 🎉</h1>
 
 				<div class="mt-3">
 					<router-link to="/account">Account settings</router-link>
@@ -59,6 +59,7 @@ export default {
 		search_term: '',
 		topChannels: [],
 		vids: [],
+		username: '',
 	}),
 	computed: mapState(['APIData']),
 	mounted() {
@@ -98,6 +99,13 @@ export default {
 							this.topChannels.push(res.data)
 						})
 				})
+			})
+		axios
+			.post('http://127.0.0.1:5000/user', {
+				idToken: this.$store.state.accessToken,
+			})
+			.then(res => {
+				this.username = res.data.display_name
 			})
 	},
 }

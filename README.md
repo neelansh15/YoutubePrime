@@ -30,3 +30,4 @@ TODO
 - [x] Accounts page (manage videos)
 - [ ] Regex in register
 - [ ] Search channels
+- [ ] Dashboard username

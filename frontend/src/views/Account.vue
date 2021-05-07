@@ -45,6 +45,10 @@ export default {
 			channelsData: [],
 		}
 	},
+	mounted() {
+		this.getVideos()
+		this.getSubscriptions()
+	},
 	methods: {
 		getVideos() {
 			this.vids = []
