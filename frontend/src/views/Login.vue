@@ -17,6 +17,7 @@
           <v-row>
             <v-col>
               <v-text-field
+                type="password"
                 v-model="password"
                 :rules="passwordRules"
                 label="Password"

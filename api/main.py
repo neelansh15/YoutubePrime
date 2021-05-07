@@ -1,5 +1,6 @@
 import os
 import json
+import asyncio
 from datetime import datetime, timedelta
 from dateutil.tz import gettz
 
@@ -95,6 +96,7 @@ def login():
     else:
         return Response(user, status=404, mimetype='application/json')
 
+loop = asyncio.get_event_loop()
 @app.route("/upload", methods=['POST'])
 def uploadVideo():
     if 'myfile' not in request.files:
@@ -147,8 +149,12 @@ def uploadVideo():
     #Upload to gcloud bucket
     # bucket = storage.bucket()
     blob = bucket.blob(f"videos/{video_id}{file_extension}")
-    blob.upload_from_string(file.read())
-
+    try:
+        loop.run_until_complete(blob.upload_from_string(file.read()))
+    except:
+        return "Error while uploading video to cloud"
+    finally:
+        loop.close()
 
     return 'Successful ' + video_id
 
