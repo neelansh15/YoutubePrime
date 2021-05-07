@@ -12,6 +12,7 @@
       <v-spacer></v-spacer>
       <v-btn to="/dashboard" text>Dashboard</v-btn>
       <v-btn to="/account" text>Account</v-btn>
+      <v-btn @click="logout" text>Logout</v-btn>
       <v-divider class="mx-3" vertical />
       <v-btn to="/upload" class="mr-1" title="Upload Video" icon>
         <v-icon>mdi-upload</v-icon>
@@ -35,5 +36,13 @@ export default {
   data: () => ({
     //
   }),
+  methods: {
+    logout() {
+      if (this.$store.state.accessToken != null) {
+        this.$store.commit("destroyToken");
+        this.$router.push({ name: "Login" });
+      }
+    },
+  },
 };
 </script>

@@ -106,6 +106,10 @@ export default {
 			})
 			.then(res => {
 				this.username = res.data.display_name
+				console.group("Username")
+				console.log("FETCH Username")
+				console.log(res.data)
+				console.groupEnd()
 			})
 	},
 }

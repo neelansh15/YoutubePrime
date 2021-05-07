@@ -233,7 +233,6 @@ def getUserDetails():
     # user_record = auth.get_user(uid) NOT REQUIRED
     userDoc = db.collection("users").document(user_uid).get()
     userDocData = userDoc.to_dict()
-    #TODO: ALso fetch and return videos
     return json.dumps(userDocData)
 
 @app.route("/userWithToken", methods=["POST"])
