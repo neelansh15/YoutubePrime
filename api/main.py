@@ -94,7 +94,9 @@ def login():
 @app.route("/upload", methods=['POST'])
 def uploadVideo():
     if 'myfile' not in request.files:
-        return "No file part"
+        return "Error: No file part"
+    if 'idToken' not in request.form:
+        return "Error: No token provided. Unauthorized"
 
     file = request.files["myfile"]
     file_extension = os.path.splitext(file.filename)[1]
