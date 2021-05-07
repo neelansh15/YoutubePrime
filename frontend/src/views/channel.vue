@@ -60,17 +60,20 @@ export default {
 					this.buttonText = ' Subscribe'
 				}
 			})
-		await axios
-			.post('http://127.0.0.1:5000/user', {
-				user_id: this.channel_id,
-			})
-			.then(res => {
-				this.channel_name = res.data.display_name
-				this.subscribers = res.data.subscriber_count
-			})
+		await this.getChannelDetails()
 		this.getVideos()
 	},
 	methods: {
+		async getChannelDetails() {
+			await axios
+				.post('http://127.0.0.1:5000/user', {
+					user_id: this.channel_id,
+				})
+				.then(res => {
+					this.channel_name = res.data.display_name
+					this.subscribers = res.data.subscriber_count
+				})
+		},
 		async subscribe() {
 			if (this.icon == 'mdi-plus') {
 				await axios
@@ -83,6 +86,7 @@ export default {
 					})
 				this.icon = 'mdi-check'
 				this.buttonText = ' Subscribed'
+				this.subscribers += 1
 			} else {
 				await axios
 					.post('http://127.0.0.1:5000/remove-subscription', {
@@ -94,6 +98,7 @@ export default {
 					})
 				this.icon = 'mdi-plus'
 				this.buttonText = ' Subscribe'
+				this.subscribers -= 1
 			}
 			this.getVideos()
 		},
