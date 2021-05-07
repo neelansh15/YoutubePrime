@@ -24,8 +24,7 @@
         :counter="200"
         v-model="description"
       ></v-textarea>
-      <v-btn type="submit" class="deep-purple darken-2" :disabled="progress != 0">Upload</v-btn>
-      <!-- <v-btn class="secondary">Cancel</v-btn> -->
+      <v-btn type="submit" class="deep-purple darken-2" :loading="(progress != 0 && progress < 1)">Upload</v-btn>
     </v-form>
   </v-container>
 </template>
@@ -63,6 +62,11 @@ export default {
 				.then(res => {
 					console.log(res)
 					this.progress = 1
+					//Reset
+					this.myfile = null
+					this.thumbnail = null
+					this.title = "",
+					this.description = ""
 				})
 		},
 	},
