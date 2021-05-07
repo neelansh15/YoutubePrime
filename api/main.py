@@ -292,18 +292,12 @@ def getUserDetailsUsingToken():
     return json.dumps(userDocData)
 
 
-
-
-# NOT TESTED
 @app.route("/user-subscription", methods=["POST"])
 def getUserSubscribedChannels():
     data = request.get_json()
     token = data['idToken']
     decoded_token = auth.verify_id_token(token)
     user_uid = decoded_token['uid']
-    print(token[:20])
-    print(user_uid)
-
     
     channels = db.collection("users").document(user_uid).collection("subscriptions").stream()
     channel_uids = []
