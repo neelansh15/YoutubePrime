@@ -1,34 +1,35 @@
-# youtube-prime
+# Youtube Prime
+A new era of subscription-based Video sharing for content creators. Upload videos and share them with people subscribed to you. (Note: Payment is a future prospect, Subscribing is free as of now).
 
-# Routes
+*Sem IV OSTPL Mini Project*
 
-## Pyrebase
+## Installation
 
-login + register (REGEX)
-register (incomplete rn)
-logout
+### Prerequisite
+You need to have a Google Firebase project, get the `serviceAccountKey.json` file (removed from this repo for security reasons), and put it in the `/api` directory. Next in `main.py` change the values of the `pyrebaseConfig` dictionary to match your firebase project.
 
-## Others
+### Backend (Python Flask)
+cd into the `/api` directory. Before you run the flask server, you need to install all the python dependencies, run either `setapp` (Windows) or `export FLASK_APP=main.py` (Linux) and then run the flask server with `flask run`.
 
-- [x] single video route (only metadata)
-- [x] single video route (metadata + generated url)
-- [x] upload video (storage + firestore)
-- [x] download video auth
-- [x] subscribed channels
+*Note: setapp.bat is just a command created to avoid typing the whole `set FLASK_APP=main.py` every time*
 
-- [x] the state store part and router push is left on register
-- [x] remove (manage) subscription in account page
+**Dependencies**
+Flask
+urllib3
+firebase-admin
+pyrebase4
+dateutil
+flask-cors
+python-dateutil
 
-TODO
+**Steps:**
+- `cd api`
+- `setapp` or `export FLASK_APP=main.py`
+- `flask run`
 
-- [x] Dashboard thumnails and top channels
-- [x] Channel thumbnails for videos
-- [x] Channel check is subscribed
-- [x] Video player
-- [x] Accounts page (manage videos)
-- [x] Regex in register
-- [x] Dashboard username
-
-- [ ] Search channels
-- [ ] app.before.route to check if token expired in main.py
-- [ ] Check if token expired on each page and before every action
+### Frontend
+cd into the `/frontend` directory and run `yarn` to install all the dependencies. Use `yarn serve` to run the frontend server.
+Steps:
+- `cd api`
+- `yarn`
+- `yarn serve`
