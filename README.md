@@ -57,5 +57,9 @@ Steps:
 ![image](https://user-images.githubusercontent.com/53081208/117554609-6ad67080-b076-11eb-8069-6b7902819046.png)
 ![image](https://user-images.githubusercontent.com/53081208/117554625-8772a880-b076-11eb-99f3-471f70eb7270.png)
 ![image](https://user-images.githubusercontent.com/53081208/117554596-54c8b000-b076-11eb-8cf1-235b6b78a635.png)
+![image](https://user-images.githubusercontent.com/53081208/117554704-e9cba900-b076-11eb-9002-de471becc891.png)
 ![image](https://user-images.githubusercontent.com/53081208/117554641-9b1e0f00-b076-11eb-9055-d5cfee9d9e87.png)
 
+## Future Prospects
+- Remaining functionality like ability to edit user info (Display name, Profile pic), edit video info(Title, description), etc.
+- Payment gateway for subscribing to a user
