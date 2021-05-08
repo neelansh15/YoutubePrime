@@ -32,7 +32,7 @@
 						<v-btn type="submit" depressed>Log in</v-btn> <br />
 						<div class="ml-1 mt-3">
 							Don't have an account?
-							<v-btn to="/register" text small>Sign up</v-btn>
+							<v-btn to="/register" text small>Register</v-btn>
 						</div>
 					</v-form>
 				</v-card-text>

@@ -10,14 +10,14 @@
 			</v-card-text>
 		</v-card>
 
-		<v-form @submit.prevent="" class="mt-5">
+		<!-- <v-form @submit.prevent="" class="mt-5">
 			<v-text-field
 				type="text"
 				v-model="search_term"
 				placeholder="Search channels"
 				solo
 			></v-text-field>
-		</v-form>
+		</v-form> -->
 
 		<div v-if="vids.length !== 0" class="mt-2">
 			<h1>From your subscriptions</h1>
@@ -106,8 +106,8 @@ export default {
 			})
 			.then(res => {
 				this.username = res.data.display_name
-				console.group("Username")
-				console.log("FETCH Username")
+				console.group('Username')
+				console.log('FETCH Username')
 				console.log(res.data)
 				console.groupEnd()
 			})

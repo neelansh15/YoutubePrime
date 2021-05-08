@@ -1,10 +1,20 @@
 <template>
 	<div>
 		<v-container class="mt-5">
-			<h1>{{ this.channel_name }}</h1>
-			<p>{{ this.subscribers }} subscribers</p>
+			<div class="mx-5 mt-5">
+				<div class="d-flex align-center">
+					<v-avatar size="90">
+						<v-img :src="chanenl_photo" class="flex-grow-0" />
+					</v-avatar>
+					<div class="mt-4 ml-4">
+						<h2 class="text-h4">{{ this.channel_name }}</h2>
+						<h3 class="text-overline">{{ this.subscribers }} subscribers</h3>
+					</div>
+				</div>
+			</div>
 
 			<v-btn
+				class="mt-3 ml-10"
 				:color="this.icon == 'mdi-plus' ? 'purple darken-3' : ''"
 				@click="subscribe"
 			>
@@ -36,6 +46,7 @@ export default {
 			channel_id: this.$route.params.id,
 			icon: 'mdi-plus',
 			videos: null,
+			chanenl_photo: '',
 			channel_name: '',
 			vids: [],
 			buttonText: ' Subscribe',
@@ -70,6 +81,7 @@ export default {
 					user_id: this.channel_id,
 				})
 				.then(res => {
+					this.chanenl_photo = res.data.photo_url
 					this.channel_name = res.data.display_name
 					this.subscribers = res.data.subscriber_count
 				})
