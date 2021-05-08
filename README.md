@@ -11,6 +11,7 @@
 [![](https://img.shields.io/badge/Made_with-Flask-lightgrey?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/en/1.1.x/) 
 [![](https://img.shields.io/badge/Made_with-Vue-brightgreen?style=for-the-badge&logo=vue.js)](https://vuejs.org/) 
 [![](https://img.shields.io/badge/Made_with-Vuetify-blue?style=for-the-badge&logo=vuetify)](https://vuetifyjs.com/) 
+[![](https://img.shields.io/badge/Made_with-Firebase-yellow?style=for-the-badge&logo=firebase)](https://vuetifyjs.com/) 
 
 </div>
 <br />
