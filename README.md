@@ -48,3 +48,14 @@ Steps:
 - `cd api`
 - `yarn`
 - `yarn serve`
+
+## Screenshots
+![image](https://user-images.githubusercontent.com/53081208/117554544-f7346380-b075-11eb-9791-b2042d46ac0c.png)
+![image](https://user-images.githubusercontent.com/53081208/117554557-159a5f00-b076-11eb-9e78-d4c3f8f83d35.png)
+![image](https://user-images.githubusercontent.com/53081208/117554568-32369700-b076-11eb-9c7e-ecbcaa9faef7.png)
+![image](https://user-images.githubusercontent.com/53081208/117554585-3f538600-b076-11eb-8ef8-c5964b9c057e.png)
+![image](https://user-images.githubusercontent.com/53081208/117554609-6ad67080-b076-11eb-8069-6b7902819046.png)
+![image](https://user-images.githubusercontent.com/53081208/117554625-8772a880-b076-11eb-99f3-471f70eb7270.png)
+![image](https://user-images.githubusercontent.com/53081208/117554596-54c8b000-b076-11eb-8cf1-235b6b78a635.png)
+![image](https://user-images.githubusercontent.com/53081208/117554641-9b1e0f00-b076-11eb-9055-d5cfee9d9e87.png)
+
