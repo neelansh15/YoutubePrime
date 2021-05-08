@@ -1,7 +1,7 @@
 <template>
 	<v-container fill-height>
 		<v-row align="center" justify="center">
-			<v-card width="1200">
+			<v-card width="800">
 				<v-card-title class="text-h4">Register</v-card-title>
 
 				<v-alert type="error" v-if="!validCred">{{ this.message }}</v-alert>
@@ -50,7 +50,7 @@
 								></v-text-field>
 							</v-col>
 						</v-row>
-						<v-btn @click="register">Sign up</v-btn>
+						<v-btn @click="register" depressed>Register</v-btn>
 						<v-card-text>
 							Already have an account?
 							<v-btn text small to="/login">Log in</v-btn>
