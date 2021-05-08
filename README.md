@@ -1,10 +1,19 @@
-<h1 align="center">Youtube Prime</h1>
+<div align="center">
+  
+  ![image](https://user-images.githubusercontent.com/53081208/117554459-7e350c00-b075-11eb-9791-9770e68b2be0.png)
+  
+</div>
 
+<div align="center">
+<br />
+  
 [![](https://img.shields.io/badge/Made_with-Python-yellow?style=for-the-badge&logo=python)](https://python.org/) 
 [![](https://img.shields.io/badge/Made_with-Flask-lightgrey?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/en/1.1.x/) 
 [![](https://img.shields.io/badge/Made_with-Vue-brightgreen?style=for-the-badge&logo=vue.js)](https://vuejs.org/) 
 [![](https://img.shields.io/badge/Made_with-Vuetify-blue?style=for-the-badge&logo=vuetify)](https://vuetifyjs.com/) 
-<br /><br />
+
+</div>
+<br />
 A new era of subscription-based Video sharing for content creators. Upload videos and share them with people subscribed to you. (Note: Payment is a future prospect, Subscribing is free as of now).
 
 *Sem IV OSTPL Mini Project*
