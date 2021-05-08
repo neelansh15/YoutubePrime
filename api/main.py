@@ -92,9 +92,9 @@ def register():
         if(isValid(user['password'])):
             new_user = pyreauth.create_user_with_email_and_password(user["email"], user["password"])
         else:
-            return Response("password invalid", status=400, mimetype='application/json')
+            return Response("Password invalid", status=400, mimetype='application/json')
     else:
-        return Response("email invalid", status=400, mimetype='application/json')
+        return Response("Email invalid", status=400, mimetype='application/json')
     
     db.collection("users").document(new_user["localId"]).set({
         "uid": new_user["localId"],
